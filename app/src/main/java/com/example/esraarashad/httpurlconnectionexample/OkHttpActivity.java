@@ -4,6 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.esraarashad.httpurlconnectionexample.MovieModel.MoviePojo;
+import com.example.esraarashad.httpurlconnectionexample.MovieModel.Results;
+import com.google.gson.Gson;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -22,11 +26,14 @@ public class OkHttpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ok_http);
         okDataText = findViewById(R.id.ok_data_text);
         okHttpClient = new OkHttpClient();
-        String myUrl = "https://api.themoviedb.org/3/movie/550?api_key=fba1791e7e4fb5ada6afc4d9e80550a0";
+        //String myUrl = "https://api.themoviedb.org/3/movie/550?api_key=fba1791e7e4fb5ada6afc4d9e80550a0";
+        String movieUrl = "https://api.themoviedb.org/3/movie/top_rated?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1";
 
         Request request = new Request.Builder()
-                .url(myUrl)
+                .url(movieUrl)
                 .build();
+        // Serialization
+        final Gson gson = new Gson();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -36,10 +43,14 @@ public class OkHttpActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()){
                     final String myresponse= response.body().string();
+                    //Deserialization
+                    final MoviePojo moviePojo = gson.fromJson(myresponse, MoviePojo.class);
+                    moviePojo.getResults().get(0).getTitle();
+                    //final String json = gson.toJson(moviePojo);
                     OkHttpActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            okDataText.setText(myresponse);
+                            okDataText.setText(moviePojo.getResults().get(0).getTitle());
                         }
                     });
                 }

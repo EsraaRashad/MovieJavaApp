@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">HttpUrlConnectionExample</string>
+    <string name="getMovieData">GetMovieData</string>
+    <string name="gotoOkActivity">gotoOkActivity</string>
 </resources>

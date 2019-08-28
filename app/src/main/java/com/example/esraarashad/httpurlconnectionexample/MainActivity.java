@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // we will pass the link
-                new JSONTask().execute("https://api.themoviedb.org/3/movie/550?api_key=fba1791e7e4fb5ada6afc4d9e80550a0");
+               // new JSONTask().execute("https://api.themoviedb.org/3/movie/550?api_key=fba1791e7e4fb5ada6afc4d9e80550a0");
+                //json parsing link:
+                new JSONTask().execute("https://api.themoviedb.org/3/movie/top_rated?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
             }
         });
 
@@ -79,7 +85,34 @@ public class MainActivity extends AppCompatActivity {
 //                if(stringBuffer.length() == 0)
 //                    return null;
                 //if we have data we will return it
-                return stringBuffer.toString();
+//                //JSON Parse without loop ******************************
+//                String finalJSON = stringBuffer.toString();
+//                JSONObject parentObject = new JSONObject(finalJSON);
+//                JSONArray parentArray = parentObject.getJSONArray("results");
+//                JSONObject finalObject = parentArray.getJSONObject(0);
+//                String movieTitle = finalObject.getString("title");
+//                int movieId = finalObject.getInt("id");
+//                String originalLanguge = finalObject.getString("original_language");
+//
+//                return movieTitle +" - "+ movieId+" - "+originalLanguge;
+//                //********************************************************
+                //JSON Parse with loop ******************************
+                String finalJSON = stringBuffer.toString();
+                JSONObject parentObject = new JSONObject(finalJSON);
+                JSONArray parentArray = parentObject.getJSONArray("results");
+
+                StringBuffer loopinStringBuffer = new StringBuffer();
+                for (int i=0;i<parentArray.length();i++) {
+                    JSONObject finalObject = parentArray.getJSONObject(i);
+                    String movieTitle = finalObject.getString("title");
+                    int movieId = finalObject.getInt("id");
+                    String originalLanguge = finalObject.getString("original_language");
+                    loopinStringBuffer.append(movieId +" - "+movieTitle+" - "+originalLanguge+" \n");
+                }
+
+                return loopinStringBuffer.toString();
+                //********************************************************
+               // return stringBuffer.toString();
 
             }
             catch (MalformedURLException e) {
@@ -87,7 +120,9 @@ public class MainActivity extends AppCompatActivity {
             }
             catch (IOException e) {
                 e.printStackTrace();
-            }finally {
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
                 // here we will close the bufferedReader and the httpURLConnection
                 if (httpURLConnection != null) {
                     httpURLConnection.disconnect();

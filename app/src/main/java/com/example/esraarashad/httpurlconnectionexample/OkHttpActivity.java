@@ -9,6 +9,9 @@ import com.example.esraarashad.httpurlconnectionexample.MovieModel.Results;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -45,12 +48,19 @@ public class OkHttpActivity extends AppCompatActivity {
                     final String myresponse= response.body().string();
                     //Deserialization
                     final MoviePojo moviePojo = gson.fromJson(myresponse, MoviePojo.class);
-                    moviePojo.getResults().get(0).getTitle();
+                    final String [] movieResults = new String[moviePojo.getResults().size()];
+                    for (int i=0;i<movieResults.length;i++){
+                        movieResults[i]= moviePojo.getResults().get(i).getTitle();
+                    }
                     //final String json = gson.toJson(moviePojo);
                     OkHttpActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            okDataText.setText(moviePojo.getResults().get(0).getTitle());
+                            final StringBuffer moviesStringBuffer = new StringBuffer();
+                            for (int j=0;j<movieResults.length;j++){
+                                okDataText.setText(moviesStringBuffer.append(movieResults[j]+"\n"));
+                            }
+
                         }
                     });
                 }

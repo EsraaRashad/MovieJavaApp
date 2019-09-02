@@ -15,9 +15,9 @@ public class PeopleResults {
 
     private String profile_path;
 
-    private String id;
+    private int id;
 
-    private String adult;
+    private Boolean adult;
 
     public String getGender ()
     {
@@ -79,22 +79,22 @@ public class PeopleResults {
         this.profile_path = profile_path;
     }
 
-    public String getId ()
+    public int getId ()
     {
         return id;
     }
 
-    public void setId (String id)
+    public void setId (int id)
     {
         this.id = id;
     }
 
-    public String getAdult ()
+    public Boolean getAdult ()
     {
         return adult;
     }
 
-    public void setAdult (String adult)
+    public void setAdult (Boolean adult)
     {
         this.adult = adult;
     }

@@ -1,6 +1,7 @@
 package com.example.esraarashad.httpurlconnectionexample;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,12 +28,14 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DetailsViewHolder detailsViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final DetailsViewHolder detailsViewHolder, int i) {
         detailsViewHolder.imgDetail.setImageResource(mPlaceList[i]);
         detailsViewHolder.imgDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+//                Intent mIntent = new Intent(mContext, ImageDetailsActivity.class);
+//                mIntent.putExtra("Image", mPlaceList[detailsViewHolder.getAdapterPosition()]);
+//                mContext.startActivity(mIntent);
             }
         });
 

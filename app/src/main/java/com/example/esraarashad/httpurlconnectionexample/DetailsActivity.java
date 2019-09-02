@@ -7,6 +7,8 @@ import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ public class DetailsActivity extends AppCompatActivity {
     private Bitmap bpImg = null;
     private InputStream inputStream=null;
     String path= "";
+    // we will place the list of data here
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,12 @@ public class DetailsActivity extends AppCompatActivity {
         nameText= findViewById(R.id.text_name);
         adultText= findViewById(R.id.text_adult);
         profileImage= findViewById(R.id.detail_img);
+        RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
+        GridLayoutManager mGridLayoutManager = new GridLayoutManager(DetailsActivity.this, 2);
+        mRecyclerView.setLayoutManager(mGridLayoutManager);
+        //DetailsAdapter myAdapter = new DetailsAdapter(DetailsActivity.this, mPlaceList);
+        //mRecyclerView.setAdapter(myAdapter);
+
 
         Intent intent = getIntent();
         if (intent != null){

@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         progressBar=findViewById(R.id.progress);
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
-        layoutManager=new LinearLayoutManager(HomeActivity.this);
+        layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(layoutManager);
         progressBar.setVisibility(View.GONE);
@@ -82,8 +82,10 @@ public class HomeActivity extends AppCompatActivity {
                 scrollOutItems=layoutManager.findFirstVisibleItemPosition();
                 if (isScrolling && (currentItems + scrollOutItems == totalItems)){
                     isScrolling = false ;
+                    i++;
+                    String myUrl="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+i;
                     progressBar.setVisibility(View.VISIBLE);
-                    new JSONTask().execute();
+                    new JSONTask().execute(myUrl);
                 }
             }
         });
@@ -102,15 +104,15 @@ public class HomeActivity extends AppCompatActivity {
                         // clear the list
                         peopleList.clear();
                         mAdapter.notifyDataSetChanged();
-                        //new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
-                        new JSONTask().execute();
+                        new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+                        //new JSONTask().execute();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }, 3000);
             }
         });
 
-            new JSONTask().execute();
+            new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
 
     }
     public class JSONTask extends AsyncTask<String, String, String> {
@@ -122,12 +124,9 @@ public class HomeActivity extends AppCompatActivity {
             httpURLConnection = null;
             bufferedReader = null;
             try {
-                if (i<500){
-                    i++;
-                String count = String.valueOf(i);
-                url = new URL("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+count);
 
-            }
+                url = new URL(urls[0]);
+
 
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.connect();

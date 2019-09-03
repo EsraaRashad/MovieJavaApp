@@ -165,7 +165,7 @@ public class HomeActivity extends AppCompatActivity {
                 mAdapter = new MyAdapter( HomeActivity.this,peopleList);
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
 
             } catch (JSONException e) {
                 Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();

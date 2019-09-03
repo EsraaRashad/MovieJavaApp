@@ -11,13 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.esraarashad.httpurlconnectionexample.PopularPeopleModel.MyPeoplePojo;
 import com.example.esraarashad.httpurlconnectionexample.PopularPeopleModel.PeopleResults;
 
 import java.io.IOException;
@@ -30,7 +27,6 @@ import java.util.concurrent.ExecutionException;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<PeopleResults> myPeoplePojo;
     private Context context;
-    private LayoutInflater inflater;
     private PeopleResults peopleResults =null;
     ImageView imageView=null;
     URL imgUrl = null;
@@ -42,7 +38,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public MyAdapter(Context context,ArrayList<PeopleResults> myPeoplePojo) {
         this.myPeoplePojo=myPeoplePojo;
         this.context=context;
-        inflater= LayoutInflater.from(context);
     }
 
     @NonNull
@@ -105,6 +100,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     Intent intentToDetails=new Intent(context,DetailsActivity.class);
                     intentToDetails.putExtra("name", peopleResults1.getName());
                     intentToDetails.putExtra("adult", peopleResults1.getAdult());
+                    intentToDetails.putExtra("id",peopleResults1.getId());
                     intentToDetails.putExtra("profile_path","https://image.tmdb.org/t/p/w500/"+peopleResults1.getProfile_path());
                     context.startActivity(intentToDetails);
 

@@ -61,10 +61,11 @@ public class DetailsActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
         mGridLayoutManager = new GridLayoutManager(DetailsActivity.this, 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
-        myAdapter = new DetailsAdapter(DetailsActivity.this, profilesList);
-        mRecyclerView.setAdapter(myAdapter);
+//        myAdapter = new DetailsAdapter(DetailsActivity.this, profilesList);
+//        mRecyclerView.setAdapter(myAdapter);
 
-
+         //URL For Profiles:
+        //https://api.themoviedb.org/3/person/{person_id}/images?api_key=fba1791e7e4fb5ada6afc4d9e80550a0
         Intent intent = getIntent();
         if (intent != null){
             String name = intent.getStringExtra("name");
@@ -74,8 +75,11 @@ public class DetailsActivity extends AppCompatActivity {
             nameText.setText(name);
             adultText.setText("For Adult :" +adult);
         }
+        new JSONDetailsTask().execute("https://api.themoviedb.org/3/person/"+id+"/images?api_key=fba1791e7e4fb5ada6afc4d9e80550a0");
+
+
         try {
-            profileImage.setImageBitmap(new AsyncImage(profileImage).execute(path).get());
+            profileImage.setImageBitmap(new AsyncImage(profileImage).execute("https://image.tmdb.org/t/p/w500/"+path).get());
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -85,7 +89,7 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     //this class to get the file_path from API
-    public class JSONTask extends AsyncTask<String, String, String> {
+    public class JSONDetailsTask extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... urls) {
@@ -134,8 +138,8 @@ public class DetailsActivity extends AppCompatActivity {
             profilesList = new ArrayList<>();
             try {
 
-                JSONObject profileObj = new JSONObject(result);
-                JSONArray jArray = profileObj.getJSONArray("profiles");
+                JSONObject profileObject = new JSONObject(result);
+                JSONArray jArray = profileObject.getJSONArray("profiles");
 
                 // Extract data from json and store into ArrayList as class objects
                 for (int i = 0; i < jArray.length(); i++) {
@@ -145,10 +149,11 @@ public class DetailsActivity extends AppCompatActivity {
                     profilesList.add(peopleProfile);
                 }
 
-                 myAdapter= new DetailsAdapter( DetailsActivity.this,profilesList);
+                myAdapter= new DetailsAdapter( DetailsActivity.this,profilesList);
+
                 mRecyclerView.setAdapter(myAdapter);
                 myAdapter.notifyDataSetChanged();
-                progressBar.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
 
             } catch (JSONException e) {
                 Toast.makeText(DetailsActivity.this, e.toString(), Toast.LENGTH_LONG).show();

@@ -63,6 +63,14 @@ public class DetailsActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mGridLayoutManager);
 //        myAdapter = new DetailsAdapter(DetailsActivity.this, profilesList);
 //        mRecyclerView.setAdapter(myAdapter);
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentToDetails=new Intent(DetailsActivity.this,ImageDetailsActivity.class);
+                intentToDetails.putExtra("Image",path);
+                startActivity(intentToDetails);
+            }
+        });
 
          //URL For Profiles:
         //https://api.themoviedb.org/3/person/{person_id}/images?api_key=fba1791e7e4fb5ada6afc4d9e80550a0
@@ -74,17 +82,19 @@ public class DetailsActivity extends AppCompatActivity {
             id=intent.getIntExtra("id",1);
             nameText.setText(name);
             adultText.setText("For Adult :" +adult);
+
+            try {
+                profileImage.setImageBitmap(new AsyncImage(profileImage).execute(path).get());
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         new JSONDetailsTask().execute("https://api.themoviedb.org/3/person/"+id+"/images?api_key=fba1791e7e4fb5ada6afc4d9e80550a0");
 
 
-        try {
-            profileImage.setImageBitmap(new AsyncImage(profileImage).execute("https://image.tmdb.org/t/p/w500/"+path).get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
     }
 

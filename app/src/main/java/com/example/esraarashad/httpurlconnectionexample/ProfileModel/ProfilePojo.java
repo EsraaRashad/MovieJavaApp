@@ -1,16 +1,18 @@
 package com.example.esraarashad.httpurlconnectionexample.ProfileModel;
 
+import java.util.ArrayList;
+
 public class ProfilePojo {
-    private Profiles[] profiles;
+    private ArrayList<Profiles> profiles;
 
     private int id;
 
-    public Profiles[] getProfiles ()
+    public ArrayList<Profiles> getProfiles ()
     {
         return profiles;
     }
 
-    public void setProfiles (Profiles[] profiles)
+    public void setProfiles (ArrayList<Profiles>  profiles)
     {
         this.profiles = profiles;
     }

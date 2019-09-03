@@ -159,7 +159,6 @@ public class HomeActivity extends AppCompatActivity {
                     peopleResults.setAdult(json_data.getBoolean("adult"));
                     peopleResults.setProfile_path(json_data.getString("profile_path"));
                     peopleResults.setId(json_data.getInt("id"));
-                    // نجيب ال id  و ال url بتاع صوره
                     peopleList.add(peopleResults);
                 }
 

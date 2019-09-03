@@ -9,13 +9,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.esraarashad.httpurlconnectionexample.PopularPeopleModel.PeopleResults;
+import com.example.esraarashad.httpurlconnectionexample.ProfileModel.Profiles;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -25,8 +39,17 @@ public class DetailsActivity extends AppCompatActivity {
     private URL imgUrl = null;
     private Bitmap bpImg = null;
     private InputStream inputStream=null;
+    private HttpURLConnection httpURLConnection;
+    private BufferedReader bufferedReader;
+    private URL url;
+    private ProgressBar progressBar;
+    private GridLayoutManager mGridLayoutManager;
     String path= "";
+    int id;
     // we will place the list of data here
+    private ArrayList<Profiles> profilesList;
+    private DetailsAdapter myAdapter;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +58,11 @@ public class DetailsActivity extends AppCompatActivity {
         nameText= findViewById(R.id.text_name);
         adultText= findViewById(R.id.text_adult);
         profileImage= findViewById(R.id.detail_img);
-        RecyclerView mRecyclerView = findViewById(R.id.recycler_view);
-        GridLayoutManager mGridLayoutManager = new GridLayoutManager(DetailsActivity.this, 2);
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mGridLayoutManager = new GridLayoutManager(DetailsActivity.this, 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
-        //DetailsAdapter myAdapter = new DetailsAdapter(DetailsActivity.this, mPlaceList);
-        //mRecyclerView.setAdapter(myAdapter);
+        myAdapter = new DetailsAdapter(DetailsActivity.this, profilesList);
+        mRecyclerView.setAdapter(myAdapter);
 
 
         Intent intent = getIntent();
@@ -47,7 +70,7 @@ public class DetailsActivity extends AppCompatActivity {
             String name = intent.getStringExtra("name");
             Boolean adult = intent.getBooleanExtra("adult",false);
             path = intent.getStringExtra("profile_path");
-
+            id=intent.getIntExtra("id",1);
             nameText.setText(name);
             adultText.setText("For Adult :" +adult);
         }
@@ -59,6 +82,79 @@ public class DetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    //this class to get the file_path from API
+    public class JSONTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... urls) {
+
+            httpURLConnection = null;
+            bufferedReader = null;
+            try {
+                url = new URL(urls[0]);
+                httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.connect();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder stringBuilder=new StringBuilder();
+                String line = "";
+
+                //while loop to append data:
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+                return (stringBuilder.toString());
+
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                // here we will close the bufferedReader and the httpURLConnection
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+
+                try {
+                    bufferedReader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            profilesList = new ArrayList<>();
+            try {
+
+                JSONObject profileObj = new JSONObject(result);
+                JSONArray jArray = profileObj.getJSONArray("profiles");
+
+                // Extract data from json and store into ArrayList as class objects
+                for (int i = 0; i < jArray.length(); i++) {
+                    JSONObject json_data = jArray.getJSONObject(i);
+                    Profiles peopleProfile=new Profiles();
+                    peopleProfile.setFile_path(json_data.getString("file_path"));
+                    profilesList.add(peopleProfile);
+                }
+
+                 myAdapter= new DetailsAdapter( DetailsActivity.this,profilesList);
+                mRecyclerView.setAdapter(myAdapter);
+                myAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+
+            } catch (JSONException e) {
+                Toast.makeText(DetailsActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
     public class AsyncImage extends AsyncTask<String,Void, Bitmap> {
 

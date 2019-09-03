@@ -44,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
     private URL url;
     private ProgressBar progressBar;
     private ArrayList<PeopleResults> peopleList;
-    private int i=0;
+    private int i=1;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -131,6 +131,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.connect();
+                //httpURLConnection.setUseCaches(true);
                 InputStream inputStream = httpURLConnection.getInputStream();
                 bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                 StringBuilder stringBuilder=new StringBuilder();

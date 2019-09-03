@@ -1,11 +1,15 @@
 package com.example.esraarashad.httpurlconnectionexample;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -61,14 +65,24 @@ public class ImageDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.settings_id) {
+            //Permission for allowing downloading image
+            if (ContextCompat.checkSelfPermission(ImageDetailsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED) {
+//                      imageUploader5.setEnabled(true);
+            }
+            else {
+                ActivityCompat.requestPermissions(ImageDetailsActivity.this, new String[]
+                        { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+            }
+            fullImageView.setDrawingCacheEnabled(true);
             //save the image
-            ImagePath = MediaStore.Images.Media.insertImage(
+             MediaStore.Images.Media.insertImage(
                     getContentResolver(),
                     fullImageView.getDrawingCache(),
                     imageString,
                     "demo_image"
             );
-            URI = Uri.parse(ImagePath);
+            //URI = Uri.parse(ImagePath);
 
             Toast.makeText(ImageDetailsActivity.this, "Image Saved Successfully", Toast.LENGTH_LONG).show();
 

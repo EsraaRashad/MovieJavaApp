@@ -3,10 +3,16 @@ package com.example.esraarashad.httpurlconnectionexample;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,7 +25,9 @@ public class ImageDetailsActivity extends AppCompatActivity {
     private URL imgUrl = null;
     private Bitmap bpImg = null;
     private InputStream inputStream=null;
-    String imageString="";
+    private String imageString="";
+    private String ImagePath="";
+    private Uri URI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,33 @@ public class ImageDetailsActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.settings_id) {
+            //save the image
+            ImagePath = MediaStore.Images.Media.insertImage(
+                    getContentResolver(),
+                    fullImageView.getDrawingCache(),
+                    imageString,
+                    "demo_image"
+            );
+            URI = Uri.parse(ImagePath);
+
+            Toast.makeText(ImageDetailsActivity.this, "Image Saved Successfully", Toast.LENGTH_LONG).show();
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public class AsyncImage extends AsyncTask<String,Void, Bitmap> {

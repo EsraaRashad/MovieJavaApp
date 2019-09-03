@@ -55,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
         layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerView = findViewById(R.id.my_recycler_view);
+        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
         recyclerView.setLayoutManager(layoutManager);
         progressBar.setVisibility(View.GONE);
 //        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
@@ -186,6 +187,8 @@ public class HomeActivity extends AppCompatActivity {
                 mAdapter = new MyAdapter( HomeActivity.this,peopleList);
                 recyclerView.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
+                recyclerView.setItemViewCacheSize(20);
+                recyclerView.setDrawingCacheEnabled(true);
                 progressBar.setVisibility(View.GONE);
 
             } catch (JSONException e) {

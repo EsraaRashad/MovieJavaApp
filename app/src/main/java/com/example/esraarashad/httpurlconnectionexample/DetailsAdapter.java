@@ -89,7 +89,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
                 @Override
                 public void onClick(View v) {
                     Intent intentToDetails=new Intent(mContext,ImageDetailsActivity.class);
-                    intentToDetails.putExtra("profile_path","https://image.tmdb.org/t/p/w500/"+profileResult.getFile_path());
+                    intentToDetails.putExtra("Image","https://image.tmdb.org/t/p/w500/"+profileResult.getFile_path());
                     mContext.startActivity(intentToDetails);
 
                 }

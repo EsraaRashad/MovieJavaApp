@@ -3,6 +3,7 @@ package com.example.esraarashad.httpurlconnectionexample;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -42,72 +45,72 @@ public class HomeActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private ArrayList<PeopleResults> peopleList;
     private int i=1;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         progressBar=findViewById(R.id.progress);
+        swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
         layoutManager=new LinearLayoutManager(HomeActivity.this);
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(layoutManager);
+        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
+        recyclerView.setAdapter(mAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+current_page);
+            }
+        });
 
-//
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL){
-//                    isScrolling=true;
-//                }
-//            }
-//
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                currentItems=layoutManager.getChildCount();
-//                totalItems=layoutManager.getItemCount();
-//                scrollOutItems=layoutManager.findFirstVisibleItemPosition();
-//
-//                if (isScrolling && (currentItems + scrollOutItems == totalItems)){
-//                    isScrolling = false;
-//                   // progressBar.setVisibility(View.VISIBLE);
-//                    new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+i);
-//                    //fetchData();
-//                }
-//            }
-//        });
+        // implement setOnRefreshListener event on SwipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
 
-        new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+i);
+                // implement Handler to wait for 3 seconds and then update UI means update value of TextView
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // cancle the Visual indication of a refresh
+
+                        // clear the list
+                        peopleList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, 3000);
+            }
+        });
+
+            new JSONTask().execute();
+
 
     }
-
-//    private void fetchData() {
-//        progressBar.setVisibility(View.VISIBLE);
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+i++);
-//                mAdapter.notifyDataSetChanged();
-//                progressBar.setVisibility(View.GONE);
-//            }
-//        },5000);
-//    }
-
-    public void requestNewData (int i){
-
-    }
-
-
     public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... urls) {
 
+
             httpURLConnection = null;
             bufferedReader = null;
             try {
-                url = new URL(urls[0]);
+                if (i<500){
+                i++;
+                String count = String.valueOf(i);
+                url = new URL("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+count);
+            }
+
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.connect();
                 InputStream inputStream = httpURLConnection.getInputStream();
@@ -162,8 +165,7 @@ public class HomeActivity extends AppCompatActivity {
                     peopleList.add(peopleResults);
                 }
 
-                mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-                recyclerView.setAdapter(mAdapter);
+
                 mAdapter.notifyDataSetChanged();
 //                progressBar.setVisibility(View.GONE);
 

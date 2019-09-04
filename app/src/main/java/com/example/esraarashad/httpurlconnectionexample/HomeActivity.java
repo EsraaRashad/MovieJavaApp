@@ -88,6 +88,20 @@ public class HomeActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.VISIBLE);
                     new JSONTask().execute(myUrl);
                 }
+//                else if (dy<0){
+//                    isScrolling=false;
+//                    i--;
+//                    String myUrl="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+i;
+//                    new JSONTask().execute(myUrl);
+//
+//                }
+
+//                else{
+//                    isScrolling=true;
+//                    i--;
+//                    String myUrl="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+i;
+//                    new JSONTask().execute(myUrl);
+//                }
             }
         });
 

@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.my_recycler_view);
         mAdapter = new MyAdapter( HomeActivity.this,peopleList);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         progressBar.setVisibility(View.GONE);
 //        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
 //        recyclerView.setAdapter(mAdapter);

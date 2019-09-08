@@ -1,21 +1,20 @@
 package com.example.esraarashad.httpurlconnectionexample;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.esraarashad.httpurlconnectionexample.PopularPeopleModel.MyPeoplePojo;
 import com.example.esraarashad.httpurlconnectionexample.PopularPeopleModel.PeopleResults;
 
 import org.json.JSONArray;
@@ -30,8 +29,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -46,6 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     private ArrayList<PeopleResults> peopleList;
     private int i=1;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +129,97 @@ public class HomeActivity extends AppCompatActivity {
             new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        final JSONTask[] jsonTask = {null};
+        MenuItem mSearchItem = menu.findItem(R.id.menu_search);
+        final SearchView mSearchView = (SearchView) mSearchItem.getActionView();
+        View mCloseButton = mSearchView.findViewById(getResources().getIdentifier("android:id/search_close_btn",null,null));
+
+        mSearchView.setQueryHint("Search by name...");
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!newText.isEmpty()) {
+                    if(!isLoading) {
+                        //Clear then make a request for search
+
+                        peopleList.clear();
+                        mAdapter.notifyDataSetChanged();
+//                        val size = resultList.size
+//                        if (size > 0) {
+//                            for (i in 0 until size) {
+//                                resultList.removeAt(0)
+//                            }
+//                            mRecyclerView.adapter?.notifyItemRangeRemoved(0, size)
+//                        }
+
+                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
+                        }
+
+                    else{
+                        //Cancel the current async task and request the new one
+                        jsonTask[0].cancel(true);
+                        isLoading=false;
+                        peopleList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
+                    }
+                } else {
+                    //currentPage = 1
+                    if(!isLoading) {
+                        peopleList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+                    }
+                    else {
+                        jsonTask[0].cancel(true);
+                        isLoading = false;
+                        peopleList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+                    }
+                }
+
+
+                return false;
+            }
+        });
+
+        //To override what happens when x is clicked on in searchView
+        mCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!mSearchView.getQuery().toString().isEmpty()) {
+                    mSearchView.setQuery("", false);
+                    mSearchView.clearFocus();
+                    //currentPage = 1
+                    peopleList.clear();
+                    mAdapter.notifyDataSetChanged();
+                    jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+
+                } else
+                    mSearchView.onActionViewCollapsed();
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
     public class JSONTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            isLoading=true;
+            super.onPreExecute();
+        }
 
         @Override
         protected String doInBackground(String... urls) {
@@ -182,6 +270,7 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            isLoading=false;
             peopleList = new ArrayList<>();
             try {
 

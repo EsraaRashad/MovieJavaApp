@@ -50,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
     private int i=1;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Boolean isLoading = false;
+    private String defaultURL="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         homeControllerView = new HomeController();
+        defaultURL="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=";
 
         progressBar=findViewById(R.id.progress);
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
@@ -92,7 +94,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (isScrolling && (currentItems + scrollOutItems == totalItems)){
                     isScrolling = false ;
                     i++;
-                    String myUrl="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+i;
+                    String myUrl=defaultURL+i;
                     progressBar.setVisibility(View.VISIBLE);
                     new JSONTask().execute(myUrl);
                 }
@@ -127,7 +129,7 @@ public class HomeActivity extends AppCompatActivity {
                         // clear the list
                         peopleList.clear();
                         mAdapter.notifyDataSetChanged();
-                        new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+                        new JSONTask().execute(defaultURL);
                         //new JSONTask().execute();
                         swipeRefreshLayout.setRefreshing(false);
                     }
@@ -135,7 +137,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-            new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+            new JSONTask().execute(defaultURL);
 
     }
     @Override
@@ -188,14 +190,14 @@ public class HomeActivity extends AppCompatActivity {
                     if(!isLoading) {
                         peopleList.clear();
                         mAdapter.notifyDataSetChanged();
-                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+                        jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
                     }
                     else {
                         jsonTask[0].cancel(true);
                         isLoading = false;
                         peopleList.clear();
                         mAdapter.notifyDataSetChanged();
-                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+                        jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
                     }
                 }
 
@@ -215,7 +217,8 @@ public class HomeActivity extends AppCompatActivity {
                     //currentPage = 1
                     peopleList.clear();
                     mAdapter.notifyDataSetChanged();
-                    jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=1");
+//                    jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
+                    
 
                 } else
                     mSearchView.onActionViewCollapsed();
@@ -311,5 +314,21 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         }
+
+
+    public String getAsyncPopularObj(){
+        String popStringObj=homeControllerView.setAsyncPopularObj();
+        return popStringObj;
+    }
+
+    public String getAsyncSearch(String text){
+        String searchStringObj=homeControllerView.setAsyncSearch(text);
+        return searchStringObj;
+    }
+
+    public String getOnLoadMoreData(int pageNum){
+        String loadMoreData=homeControllerView.setOnLoadMoreData(pageNum);
+        return loadMoreData;
+    }
     }
 

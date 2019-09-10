@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.view.DetailsActivity;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
 
@@ -27,6 +28,9 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+
+    private HomeController homeControllerAdapter;
+
     private ArrayList<PeopleResults> myPeoplePojo;
     private Context context;
     private PeopleResults peopleResults =null;
@@ -40,6 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public MyAdapter(Context context,ArrayList<PeopleResults> myPeoplePojo) {
         this.myPeoplePojo=myPeoplePojo;
         this.context=context;
+        homeControllerAdapter= new HomeController();
     }
 
     @NonNull

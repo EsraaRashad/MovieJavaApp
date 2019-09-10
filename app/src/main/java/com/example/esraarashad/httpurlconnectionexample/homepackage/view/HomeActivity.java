@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
 
@@ -32,6 +33,10 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private HomeController homeControllerView;
+
+
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private LinearLayoutManager layoutManager;
@@ -50,6 +55,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        homeControllerView = new HomeController();
+
         progressBar=findViewById(R.id.progress);
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
         layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);

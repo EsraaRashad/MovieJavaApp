@@ -10,9 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".fullimagepackage.ImageDetailsActivity"></activity>
-        <activity android:name=".detailspackage.DetailsActivity" />
+        <activity android:name=".detailspackage.view.DetailsActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".homepackage.HomeActivity">
+        <activity android:name=".homepackage.view.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

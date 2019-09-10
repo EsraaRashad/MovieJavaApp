@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.homepackage;
+package com.example.esraarashad.httpurlconnectionexample.homepackage.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.esraarashad.httpurlconnectionexample.detailspackage.DetailsActivity;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.PopularPeopleModel.PeopleResults;
+import com.example.esraarashad.httpurlconnectionexample.detailspackage.view.DetailsActivity;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
 
 import java.io.IOException;

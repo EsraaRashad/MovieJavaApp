@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.homepackage;
+package com.example.esraarashad.httpurlconnectionexample.homepackage.view;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.esraarashad.httpurlconnectionexample.homepackage.PopularPeopleModel.PeopleResults;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
 
 import org.json.JSONArray;

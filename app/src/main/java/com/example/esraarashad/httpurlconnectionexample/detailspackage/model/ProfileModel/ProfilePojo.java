@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.detailspackage.ProfileModel;
+package com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel;
 
 import java.util.ArrayList;
 

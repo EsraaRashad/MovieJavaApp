@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.detailspackage;
+package com.example.esraarashad.httpurlconnectionexample.detailspackage.view;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.ImageDetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.R;
-import com.example.esraarashad.httpurlconnectionexample.detailspackage.ProfileModel.Profiles;
+import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.Profiles;
 
 import org.json.JSONArray;
 import org.json.JSONException;

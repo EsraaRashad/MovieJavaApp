@@ -4,7 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.MovieModel.MoviePojo;
+import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.model.MovieModel.MoviePojo;
 import com.google.gson.Gson;
 
 import java.io.IOException;

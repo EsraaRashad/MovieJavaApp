@@ -1,13 +1,13 @@
-package com.example.esraarashad.httpurlconnectionexample.MovieModel;
+package com.example.esraarashad.httpurlconnectionexample.homepackage.PopularPeopleModel;
 
 import java.util.ArrayList;
 
-public class MoviePojo {
+public class MyPeoplePojo {
     private String page;
 
     private String total_pages;
 
-    private ArrayList<Results> results;
+    private ArrayList<PeopleResults> results;
 
     private String total_results;
 
@@ -31,11 +31,13 @@ public class MoviePojo {
         this.total_pages = total_pages;
     }
 
-    public ArrayList<Results> getResults() {
+    public ArrayList<PeopleResults>  getResults ()
+    {
         return results;
     }
 
-    public void setResults(ArrayList<Results> results) {
+    public void setResults (ArrayList<PeopleResults>  results)
+    {
         this.results = results;
     }
 

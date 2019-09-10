@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample;
+package com.example.esraarashad.httpurlconnectionexample.homepackage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.esraarashad.httpurlconnectionexample.PopularPeopleModel.PeopleResults;
+import com.example.esraarashad.httpurlconnectionexample.detailspackage.DetailsActivity;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.PopularPeopleModel.PeopleResults;
+import com.example.esraarashad.httpurlconnectionexample.R;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -97,7 +99,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intentToDetails=new Intent(context,DetailsActivity.class);
+                    Intent intentToDetails=new Intent(context, DetailsActivity.class);
                     intentToDetails.putExtra("name", peopleResults1.getName());
                     intentToDetails.putExtra("adult", peopleResults1.getAdult());
                     intentToDetails.putExtra("id",peopleResults1.getId());

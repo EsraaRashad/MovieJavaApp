@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample;
+package com.example.esraarashad.httpurlconnectionexample.detailspackage;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.esraarashad.httpurlconnectionexample.PopularPeopleModel.PeopleResults;
-import com.example.esraarashad.httpurlconnectionexample.ProfileModel.Profiles;
+import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.ImageDetailsActivity;
+import com.example.esraarashad.httpurlconnectionexample.R;
+import com.example.esraarashad.httpurlconnectionexample.detailspackage.ProfileModel.Profiles;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,7 +89,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intentToDetails=new Intent(mContext,ImageDetailsActivity.class);
+                    Intent intentToDetails=new Intent(mContext, ImageDetailsActivity.class);
                     intentToDetails.putExtra("Image","https://image.tmdb.org/t/p/w500/"+profileResult.getFile_path());
                     mContext.startActivity(intentToDetails);
 

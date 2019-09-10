@@ -6,7 +6,7 @@
     android:id="@+id/simpleSwipeRefreshLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".homepackage.HomeActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

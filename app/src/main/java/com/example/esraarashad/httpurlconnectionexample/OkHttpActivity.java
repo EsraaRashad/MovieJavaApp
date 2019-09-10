@@ -4,14 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.esraarashad.httpurlconnectionexample.MovieModel.MoviePojo;
-import com.example.esraarashad.httpurlconnectionexample.MovieModel.Results;
+import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.MovieModel.MoviePojo;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;

@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.PopularPeopleModel;
+package com.example.esraarashad.httpurlconnectionexample.homepackage.PopularPeopleModel;
 
 import java.util.ArrayList;
 

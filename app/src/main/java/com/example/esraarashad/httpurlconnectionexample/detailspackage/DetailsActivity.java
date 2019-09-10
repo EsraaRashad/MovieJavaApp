@@ -1,9 +1,8 @@
-package com.example.esraarashad.httpurlconnectionexample;
+package com.example.esraarashad.httpurlconnectionexample.detailspackage;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,8 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.esraarashad.httpurlconnectionexample.PopularPeopleModel.PeopleResults;
-import com.example.esraarashad.httpurlconnectionexample.ProfileModel.Profiles;
+import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.ImageDetailsActivity;
+import com.example.esraarashad.httpurlconnectionexample.R;
+import com.example.esraarashad.httpurlconnectionexample.detailspackage.ProfileModel.Profiles;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +66,7 @@ public class DetailsActivity extends AppCompatActivity {
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentToDetails=new Intent(DetailsActivity.this,ImageDetailsActivity.class);
+                Intent intentToDetails=new Intent(DetailsActivity.this, ImageDetailsActivity.class);
                 intentToDetails.putExtra("Image",path);
                 startActivity(intentToDetails);
             }

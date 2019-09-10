@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample;
+package com.example.esraarashad.httpurlconnectionexample.fullimagepackage;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.esraarashad.httpurlconnectionexample.R;
 
 import java.io.IOException;
 import java.io.InputStream;

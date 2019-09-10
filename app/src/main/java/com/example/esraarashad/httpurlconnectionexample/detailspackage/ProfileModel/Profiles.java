@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.ProfileModel;
+package com.example.esraarashad.httpurlconnectionexample.detailspackage.ProfileModel;
 
 public class Profiles {
     private String file_path;

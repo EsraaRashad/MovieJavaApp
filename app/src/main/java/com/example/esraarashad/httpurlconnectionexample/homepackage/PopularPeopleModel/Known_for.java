@@ -1,7 +1,6 @@
-package com.example.esraarashad.httpurlconnectionexample.MovieModel;
+package com.example.esraarashad.httpurlconnectionexample.homepackage.PopularPeopleModel;
 
-public class Results {
-
+public class Known_for {
     private String overview;
 
     private String original_language;
@@ -18,9 +17,9 @@ public class Results {
 
     private String backdrop_path;
 
-    private String release_date;
+    private String media_type;
 
-    private String popularity;
+    private String release_date;
 
     private String vote_average;
 
@@ -110,6 +109,16 @@ public class Results {
         this.backdrop_path = backdrop_path;
     }
 
+    public String getMedia_type ()
+    {
+        return media_type;
+    }
+
+    public void setMedia_type (String media_type)
+    {
+        this.media_type = media_type;
+    }
+
     public String getRelease_date ()
     {
         return release_date;
@@ -118,16 +127,6 @@ public class Results {
     public void setRelease_date (String release_date)
     {
         this.release_date = release_date;
-    }
-
-    public String getPopularity ()
-    {
-        return popularity;
-    }
-
-    public void setPopularity (String popularity)
-    {
-        this.popularity = popularity;
     }
 
     public String getVote_average ()
@@ -173,6 +172,6 @@ public class Results {
     @Override
     public String toString()
     {
-        return "ClassPojo [overview = "+overview+", original_language = "+original_language+", original_title = "+original_title+", video = "+video+", title = "+title+", genre_ids = "+genre_ids+", poster_path = "+poster_path+", backdrop_path = "+backdrop_path+", release_date = "+release_date+", popularity = "+popularity+", vote_average = "+vote_average+", id = "+id+", adult = "+adult+", vote_count = "+vote_count+"]";
+        return "ClassPojo [overview = "+overview+", original_language = "+original_language+", original_title = "+original_title+", video = "+video+", title = "+title+", genre_ids = "+genre_ids+", poster_path = "+poster_path+", backdrop_path = "+backdrop_path+", media_type = "+media_type+", release_date = "+release_date+", vote_average = "+vote_average+", id = "+id+", adult = "+adult+", vote_count = "+vote_count+"]";
     }
 }

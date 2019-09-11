@@ -44,7 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public MyAdapter(Context context,ArrayList<PeopleResults> myPeoplePojo) {
         this.myPeoplePojo=myPeoplePojo;
         this.context=context;
-        homeControllerAdapter= new HomeController();
+        //homeControllerAdapter= new HomeController();
     }
 
     @NonNull

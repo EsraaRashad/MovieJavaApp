@@ -65,18 +65,8 @@ public class HomeActivity extends AppCompatActivity {
         layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerView = findViewById(R.id.my_recycler_view);
         mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(mAdapter);
         progressBar.setVisibility(View.GONE);
-//        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-//        recyclerView.setAdapter(mAdapter);
-
-//        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
-//            @Override
-//            public void onLoadMore(int current_page) {
-//                new JSONTask().execute("https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+current_page);
-//            }
-//        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -94,24 +84,10 @@ public class HomeActivity extends AppCompatActivity {
                 if (isScrolling && (currentItems + scrollOutItems == totalItems)){
                     isScrolling = false ;
                     i++;
-                    String myUrl=defaultURL+i;
                     progressBar.setVisibility(View.VISIBLE);
-                    new JSONTask().execute(myUrl);
+                    getOnLoadMoreData(i);
                 }
-//                else if (dy<0){
-//                    isScrolling=false;
-//                    i--;
-//                    String myUrl="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+i;
-//                    new JSONTask().execute(myUrl);
-//
-//                }
 
-//                else{
-//                    isScrolling=true;
-//                    i--;
-//                    String myUrl="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page="+i;
-//                    new JSONTask().execute(myUrl);
-//                }
             }
         });
 
@@ -129,209 +105,215 @@ public class HomeActivity extends AppCompatActivity {
                         // clear the list
                         peopleList.clear();
                         mAdapter.notifyDataSetChanged();
-                        new JSONTask().execute(defaultURL);
-                        //new JSONTask().execute();
+                        getAsyncPopularObj();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 }, 3000);
             }
         });
 
-            new JSONTask().execute(defaultURL);
+        getAsyncPopularObj();
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main, menu);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        //final JSONTask[] jsonTask = {null};
+        MenuItem mSearchItem = menu.findItem(R.id.menu_search);
+        final SearchView mSearchView = (SearchView) mSearchItem.getActionView();
+        View mCloseButton = mSearchView.findViewById(getResources().getIdentifier("android:id/search_close_btn",null,null));
+
+        mSearchView.setQueryHint("Search by name...");
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (!newText.isEmpty()) {
+                    if(!isLoading) {
+                        //Clear then make a request for search
+
+                        peopleList.clear();
+                        mAdapter.notifyDataSetChanged();
+
+                        getAsyncSearch(newText);
+
+                       // jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
+                        }
+
+                    else{
+                        //Cancel the current async task and request the new one
+                       // jsonTask[0].cancel(true);
+                        isLoading=false;
+                        peopleList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        getAsyncSearch(newText);
+                        //jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
+                    }
+                } else {
+                    //currentPage = 1
+                    if(!isLoading) {
+                        peopleList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        getAsyncPopularObj();
+                       // jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
+                    }
+                    else {
+                        //jsonTask[0].cancel(true);
+                        isLoading = false;
+                        peopleList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        getAsyncPopularObj();
+                        //jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
+                    }
+                }
+
+
+                return false;
+            }
+        });
+
+        //To override what happens when x is clicked on in searchView
+        mCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!mSearchView.getQuery().toString().isEmpty()) {
+                    mSearchView.setQuery("", false);
+                    mSearchView.clearFocus();
+                    //currentPage = 1
+                    peopleList.clear();
+                    mAdapter.notifyDataSetChanged();
+//                    jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
+                    getAsyncPopularObj();
+
+
+                } else
+                    mSearchView.onActionViewCollapsed();
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+//    public class JSONTask extends AsyncTask<String, String, String> {
+//        @Override
+//        protected void onPreExecute() {
+//            isLoading=true;
+//            super.onPreExecute();
+//        }
 //
-//        final JSONTask[] jsonTask = {null};
-//        MenuItem mSearchItem = menu.findItem(R.id.menu_search);
-//        final SearchView mSearchView = (SearchView) mSearchItem.getActionView();
-//        View mCloseButton = mSearchView.findViewById(getResources().getIdentifier("android:id/search_close_btn",null,null));
+//        @Override
+//        protected String doInBackground(String... urls) {
 //
-//        mSearchView.setQueryHint("Search by name...");
 //
-//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            httpURLConnection = null;
+//            bufferedReader = null;
+//            try {
 //
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
+//                url = new URL(urls[0]);
 //
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                if (!newText.isEmpty()) {
-//                    if(!isLoading) {
-//                        //Clear then make a request for search
 //
-//                        peopleList.clear();
-//                        mAdapter.notifyDataSetChanged();
-////                        val size = resultList.size
-////                        if (size > 0) {
-////                            for (i in 0 until size) {
-////                                resultList.removeAt(0)
-////                            }
-////                            mRecyclerView.adapter?.notifyItemRangeRemoved(0, size)
-////                        }
+//                httpURLConnection = (HttpURLConnection) url.openConnection();
+//                httpURLConnection.connect();
+//                //httpURLConnection.setUseCaches(true);
+//                InputStream inputStream = httpURLConnection.getInputStream();
+//                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//                StringBuilder stringBuilder=new StringBuilder();
+//                String line = "";
 //
-//                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
-//                        }
+//                //while loop to append data:
+//                while ((line = bufferedReader.readLine()) != null) {
+//                    stringBuilder.append(line);
+//                }
+//                return (stringBuilder.toString());
 //
-//                    else{
-//                        //Cancel the current async task and request the new one
-//                        jsonTask[0].cancel(true);
-//                        isLoading=false;
-//                        peopleList.clear();
-//                        mAdapter.notifyDataSetChanged();
-//                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
-//                    }
-//                } else {
-//                    //currentPage = 1
-//                    if(!isLoading) {
-//                        peopleList.clear();
-//                        mAdapter.notifyDataSetChanged();
-//                        jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
-//                    }
-//                    else {
-//                        jsonTask[0].cancel(true);
-//                        isLoading = false;
-//                        peopleList.clear();
-//                        mAdapter.notifyDataSetChanged();
-//                        jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
-//                    }
+//
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                // here we will close the bufferedReader and the httpURLConnection
+//                if (httpURLConnection != null) {
+//                    httpURLConnection.disconnect();
 //                }
 //
+//                try {
+//                    bufferedReader.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 //
-//                return false;
 //            }
-//        });
+//            return null;
+//        }
 //
-//        //To override what happens when x is clicked on in searchView
-//        mCloseButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//            isLoading=false;
+//            peopleList = new ArrayList<>();
+//            try {
 //
-//                if (!mSearchView.getQuery().toString().isEmpty()) {
-//                    mSearchView.setQuery("", false);
-//                    mSearchView.clearFocus();
-//                    //currentPage = 1
-//                    peopleList.clear();
-//                    mAdapter.notifyDataSetChanged();
-////                    jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
+//                JSONObject peoplePojo = new JSONObject(result);
+//                JSONArray jArray = peoplePojo.getJSONArray("results");
 //
+//                // Extract data from json and store into ArrayList as class objects
+//                for (int i = 0; i < jArray.length(); i++) {
+//                    JSONObject json_data = jArray.getJSONObject(i);
+//                    PeopleResults peopleResults=new PeopleResults();
+//                    peopleResults.setName(json_data.getString("name")) ;
+//                    peopleResults.setAdult(json_data.getBoolean("adult"));
+//                    peopleResults.setProfile_path(json_data.getString("profile_path"));
+//                    peopleResults.setId(json_data.getInt("id"));
+//                    peopleList.add(peopleResults);
+//                }
 //
-//                } else
-//                    mSearchView.onActionViewCollapsed();
+//                recyclerView.setLayoutManager(layoutManager);
+//                recyclerView.setHasFixedSize(true);
+//                recyclerView.setItemViewCacheSize(20);
+//                recyclerView.setDrawingCacheEnabled(true);
+//                mAdapter.notifyDataSetChanged();
+//                progressBar.setVisibility(View.GONE);
+//
+//            } catch (JSONException e) {
+//                Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
 //            }
-//        });
-//        return super.onCreateOptionsMenu(menu);
-//    }
+//
+//            }
+//        }
 
-
-    public class JSONTask extends AsyncTask<String, String, String> {
-        @Override
-        protected void onPreExecute() {
-            isLoading=true;
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-
-            httpURLConnection = null;
-            bufferedReader = null;
-            try {
-
-                url = new URL(urls[0]);
-
-
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.connect();
-                //httpURLConnection.setUseCaches(true);
-                InputStream inputStream = httpURLConnection.getInputStream();
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                String line = "";
-
-                //while loop to append data:
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                return (stringBuilder.toString());
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                // here we will close the bufferedReader and the httpURLConnection
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
-
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            isLoading=false;
-            peopleList = new ArrayList<>();
-            try {
-
-                JSONObject peoplePojo = new JSONObject(result);
-                JSONArray jArray = peoplePojo.getJSONArray("results");
-
-                // Extract data from json and store into ArrayList as class objects
-                for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject json_data = jArray.getJSONObject(i);
-                    PeopleResults peopleResults=new PeopleResults();
-                    peopleResults.setName(json_data.getString("name")) ;
-                    peopleResults.setAdult(json_data.getBoolean("adult"));
-                    peopleResults.setProfile_path(json_data.getString("profile_path"));
-                    peopleResults.setId(json_data.getInt("id"));
-                    peopleList.add(peopleResults);
-                }
-
-
-                mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-                recyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
-                recyclerView.setItemViewCacheSize(20);
-                recyclerView.setDrawingCacheEnabled(true);
-                progressBar.setVisibility(View.GONE);
-
-            } catch (JSONException e) {
-                Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-            }
-
-            }
-        }
-
-
-    public String getAsyncPopularObj(){
-        String popStringObj=homeControllerView.setAsyncPopularObj();
-        return popStringObj;
+    public void setToastErrMsg(JSONException e){
+        Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
     }
 
-    public String getAsyncSearch(String text){
-        String searchStringObj=homeControllerView.setAsyncSearch(text);
-        return searchStringObj;
+    public void setRecyclerViewAndAdapter(){
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        mAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
     }
 
-    public String getOnLoadMoreData(int pageNum){
-        String loadMoreData=homeControllerView.setOnLoadMoreData(pageNum);
-        return loadMoreData;
+    public void getAsyncPopularObj(){
+        homeControllerView.setAsyncPopularObj();
+    }
+
+    public void getAsyncSearch(String text){
+        homeControllerView.setAsyncSearch(text);
+    }
+
+    public void getOnLoadMoreData(int pageNum){
+        homeControllerView.setOnLoadMoreData(pageNum);
     }
     }
 

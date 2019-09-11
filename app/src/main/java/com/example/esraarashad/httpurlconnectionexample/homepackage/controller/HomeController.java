@@ -1,13 +1,8 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.controller;
 
-import android.view.View;
-import android.widget.Toast;
-
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.view.HomeActivity;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.view.MyAdapter;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +24,6 @@ public class HomeController {
     private HttpURLConnection httpURLConnection;
     private BufferedReader bufferedReader;
     private URL url;
-   // private String urlFromModel;
 
     public HomeController(HomeActivity homeActivity1) {
         peopleList = new ArrayList<>();
@@ -39,19 +33,16 @@ public class HomeController {
     }
 
 
-    public String setAsyncPopularObj(){
-        String popStringObj=homeDataNetwork.asyncPopularObject();
-        return popStringObj;
+    public void setAsyncPopularObj(){
+        homeDataNetwork.asyncPopularObject();
     }
 
-    public String setAsyncSearch(String text){
-        String searchStringObj=homeDataNetwork.asyncSearch(text);
-        return searchStringObj;
+    public void setAsyncSearch(String text){
+        homeDataNetwork.asyncSearch(text);
     }
 
-    public String setOnLoadMoreData(int pageNum){
-        String loadMoreData=homeDataNetwork.asyncOnLoadMore(pageNum);
-        return loadMoreData;
+    public void setOnLoadMoreData(int pageNum){
+        homeDataNetwork.asyncOnLoadMore(pageNum);
     }
 
     public void getJsonData(String result){
@@ -72,24 +63,12 @@ public class HomeController {
             }
 
             getRecyclerViewAndAdapter();
-//            mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-//            recyclerView.setAdapter(mAdapter);
-//            mAdapter.notifyDataSetChanged();
-//            recyclerView.setItemViewCacheSize(20);
-//            recyclerView.setDrawingCacheEnabled(true);
-//            progressBar.setVisibility(View.GONE);
 
         } catch (JSONException e) {
-            //getToast();
-            //Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+            getToastErrMsg(e);
         }
     }
 
-//    public  String sendUrlToView(){
-//        urlFromModel=homeDataNetwork.sendUrl();
-//        return urlFromModel;
-//
-//    }
 
     public String getHttpConnection(String urls){
         httpURLConnection = null;
@@ -99,7 +78,6 @@ public class HomeController {
             url = new URL(urls);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.connect();
-            //httpURLConnection.setUseCaches(true);
             InputStream inputStream = httpURLConnection.getInputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder stringBuilder=new StringBuilder();
@@ -134,5 +112,9 @@ public class HomeController {
 
     public void getRecyclerViewAndAdapter(){
        homeActivity.setRecyclerViewAndAdapter();
+    }
+
+    public void getToastErrMsg(JSONException e){
+        homeActivity.setToastErrMsg(e);
     }
 }

@@ -79,12 +79,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return myPeoplePojo.size();
     }
 
-//    public void insertItemInList(PeopleResults s) {
-//        if (myPeoplePojo == null) myPeoplePojo = new ArrayList<>();
-//        myPeoplePojo.add(s);
-//        notifyItemInserted(myPeoplePojo.size() - 1);
-//    }
-
     public  class MyViewHolder extends RecyclerView.ViewHolder{
 
         public TextView nameTextView;

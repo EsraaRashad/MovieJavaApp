@@ -53,12 +53,16 @@ public class HomeActivity extends AppCompatActivity {
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
         layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerView = findViewById(R.id.my_recycler_view);
+        peopleList = new ArrayList<>();
         mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        progressBar.setVisibility(View.GONE);
+        recyclerView.setAdapter(mAdapter);
+//        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setHasFixedSize(true);
+//        progressBar.setVisibility(View.GONE);
+
+
 //        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-//        recyclerView.setAdapter(mAdapter);
+
 
 //        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(layoutManager) {
 //            @Override
@@ -271,7 +275,7 @@ public class HomeActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             isLoading=false;
-            peopleList = new ArrayList<>();
+
             try {
 
                 JSONObject peoplePojo = new JSONObject(result);
@@ -289,11 +293,14 @@ public class HomeActivity extends AppCompatActivity {
                 }
 
 
-                mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-                recyclerView.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
+                //mAdapter = new MyAdapter( HomeActivity.this,peopleList);
+//                recyclerView.setAdapter(mAdapter);
+
                 recyclerView.setItemViewCacheSize(20);
                 recyclerView.setDrawingCacheEnabled(true);
+                recyclerView.setHasFixedSize(true);
+                mAdapter.notifyDataSetChanged();
+                recyclerView.setLayoutManager(layoutManager);
                 progressBar.setVisibility(View.GONE);
 
             } catch (JSONException e) {

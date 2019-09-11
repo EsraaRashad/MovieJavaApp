@@ -31,7 +31,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private HomeController homeControllerAdapter;
 
-    private ArrayList<PeopleResults> myPeoplePojo;
+    private ArrayList<PeopleResults> myPeoplePojo ;
     private Context context;
     private PeopleResults peopleResults =null;
     ImageView imageView=null;

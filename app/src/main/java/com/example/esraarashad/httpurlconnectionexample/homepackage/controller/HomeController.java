@@ -33,6 +33,7 @@ public class HomeController {
     }
 
 
+
     public void setAsyncPopularObj(){
         homeDataNetwork.asyncPopularObject();
     }
@@ -111,7 +112,7 @@ public class HomeController {
     }
 
     public void getRecyclerViewAndAdapter(){
-       homeActivity.setRecyclerViewAndAdapter();
+       homeActivity.setRecyclerViewAndAdapter(peopleList);
     }
 
     public void getToastErrMsg(JSONException e){

@@ -58,14 +58,14 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         homeControllerView = new HomeController(this);
-        defaultURL="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=";
+       // defaultURL="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=";
 
         progressBar=findViewById(R.id.progress);
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
         layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerView = findViewById(R.id.my_recycler_view);
-        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-        recyclerView.setAdapter(mAdapter);
+//        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
+//        recyclerView.setAdapter(mAdapter);
         progressBar.setVisibility(View.GONE);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -295,7 +295,9 @@ public class HomeActivity extends AppCompatActivity {
         Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
     }
 
-    public void setRecyclerViewAndAdapter(){
+    public void setRecyclerViewAndAdapter( ArrayList<PeopleResults> peopleList){
+        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
+        recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(20);

@@ -32,7 +32,9 @@ public class HomeController {
 
     }
 
-
+    public ArrayList<PeopleResults> getPeopleListFromController(){
+        return peopleList;
+    }
 
     public void setAsyncPopularObj(){
         homeDataNetwork.asyncPopularObject();

@@ -38,19 +38,15 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private LinearLayoutManager layoutManager;
     private boolean isScrolling = false;
     int currentItems,totalItems , scrollOutItems;
-    private HttpURLConnection httpURLConnection;
-    private BufferedReader bufferedReader;
-    private URL url;
     private ProgressBar progressBar;
     private ArrayList<PeopleResults> peopleList;
     private int i=1;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Boolean isLoading = false;
-    private String defaultURL="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +54,11 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         homeControllerView = new HomeController(this);
-       // defaultURL="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=";
-
         progressBar=findViewById(R.id.progress);
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
         layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerView = findViewById(R.id.my_recycler_view);
-//        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
-//        recyclerView.setAdapter(mAdapter);
+
         progressBar.setVisibility(View.GONE);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -103,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
                         // cancle the Visual indication of a refresh
 
                         // clear the list
-                        peopleList.clear();
+                        homeControllerView.getPeopleListFromController().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                         swipeRefreshLayout.setRefreshing(false);
@@ -140,7 +133,8 @@ public class HomeActivity extends AppCompatActivity {
                     if(!isLoading) {
                         //Clear then make a request for search
 
-                        peopleList.clear();
+                        //peopleList.clear();
+                        homeControllerView.getPeopleListFromController().clear();
                         mAdapter.notifyDataSetChanged();
 
                         getAsyncSearch(newText);
@@ -152,7 +146,8 @@ public class HomeActivity extends AppCompatActivity {
                         //Cancel the current async task and request the new one
                        // jsonTask[0].cancel(true);
                         isLoading=false;
-                        peopleList.clear();
+                        //peopleList.clear();
+                        homeControllerView.getPeopleListFromController().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncSearch(newText);
                         //jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
@@ -160,7 +155,8 @@ public class HomeActivity extends AppCompatActivity {
                 } else {
                     //currentPage = 1
                     if(!isLoading) {
-                        peopleList.clear();
+                       // peopleList.clear();
+                        homeControllerView.getPeopleListFromController().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                        // jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
@@ -168,7 +164,8 @@ public class HomeActivity extends AppCompatActivity {
                     else {
                         //jsonTask[0].cancel(true);
                         isLoading = false;
-                        peopleList.clear();
+                        //peopleList.clear();
+                        homeControllerView.getPeopleListFromController().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                         //jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
@@ -189,7 +186,8 @@ public class HomeActivity extends AppCompatActivity {
                     mSearchView.setQuery("", false);
                     mSearchView.clearFocus();
                     //currentPage = 1
-                    peopleList.clear();
+                    //peopleList.clear();
+                    homeControllerView.getPeopleListFromController().clear();
                     mAdapter.notifyDataSetChanged();
 //                    jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
                     getAsyncPopularObj();
@@ -201,7 +199,7 @@ public class HomeActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
-    
+
 
     public void setToastErrMsg(JSONException e){
         Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
@@ -214,8 +212,13 @@ public class HomeActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(20);
         recyclerView.setDrawingCacheEnabled(true);
-        mAdapter.notifyDataSetChanged();
+        notifyChangesInAdapter(mAdapter);
+        //mAdapter.notifyDataSetChanged();
         progressBar.setVisibility(View.GONE);
+    }
+
+    public void notifyChangesInAdapter(MyAdapter adapter){
+        adapter.notifyDataSetChanged();
     }
 
     public void getAsyncPopularObj(){

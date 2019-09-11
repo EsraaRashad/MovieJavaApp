@@ -39,8 +39,8 @@ public class HomeDataNetwork {
     private String jsonTaskString;
     private String searchUrl;
 
-    public HomeDataNetwork() {
-        this.homeControllerModel = new HomeController();
+    public HomeDataNetwork(HomeController homeController) {
+        this.homeControllerModel=homeController;
         defaultURL="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=";
         searchUrl="https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query=";
         //jsonTaskString="";

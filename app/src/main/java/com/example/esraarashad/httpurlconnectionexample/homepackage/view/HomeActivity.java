@@ -57,7 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        homeControllerView = new HomeController();
+        homeControllerView = new HomeController(this);
         defaultURL="https://api.themoviedb.org/3/person/popular?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&language=en-US&page=";
 
         progressBar=findViewById(R.id.progress);
@@ -140,92 +140,95 @@ public class HomeActivity extends AppCompatActivity {
             new JSONTask().execute(defaultURL);
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
 
-        final JSONTask[] jsonTask = {null};
-        MenuItem mSearchItem = menu.findItem(R.id.menu_search);
-        final SearchView mSearchView = (SearchView) mSearchItem.getActionView();
-        View mCloseButton = mSearchView.findViewById(getResources().getIdentifier("android:id/search_close_btn",null,null));
-
-        mSearchView.setQueryHint("Search by name...");
-
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (!newText.isEmpty()) {
-                    if(!isLoading) {
-                        //Clear then make a request for search
-
-                        peopleList.clear();
-                        mAdapter.notifyDataSetChanged();
-//                        val size = resultList.size
-//                        if (size > 0) {
-//                            for (i in 0 until size) {
-//                                resultList.removeAt(0)
-//                            }
-//                            mRecyclerView.adapter?.notifyItemRangeRemoved(0, size)
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main, menu);
+//
+//        final JSONTask[] jsonTask = {null};
+//        MenuItem mSearchItem = menu.findItem(R.id.menu_search);
+//        final SearchView mSearchView = (SearchView) mSearchItem.getActionView();
+//        View mCloseButton = mSearchView.findViewById(getResources().getIdentifier("android:id/search_close_btn",null,null));
+//
+//        mSearchView.setQueryHint("Search by name...");
+//
+//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                if (!newText.isEmpty()) {
+//                    if(!isLoading) {
+//                        //Clear then make a request for search
+//
+//                        peopleList.clear();
+//                        mAdapter.notifyDataSetChanged();
+////                        val size = resultList.size
+////                        if (size > 0) {
+////                            for (i in 0 until size) {
+////                                resultList.removeAt(0)
+////                            }
+////                            mRecyclerView.adapter?.notifyItemRangeRemoved(0, size)
+////                        }
+//
+//                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
 //                        }
+//
+//                    else{
+//                        //Cancel the current async task and request the new one
+//                        jsonTask[0].cancel(true);
+//                        isLoading=false;
+//                        peopleList.clear();
+//                        mAdapter.notifyDataSetChanged();
+//                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
+//                    }
+//                } else {
+//                    //currentPage = 1
+//                    if(!isLoading) {
+//                        peopleList.clear();
+//                        mAdapter.notifyDataSetChanged();
+//                        jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
+//                    }
+//                    else {
+//                        jsonTask[0].cancel(true);
+//                        isLoading = false;
+//                        peopleList.clear();
+//                        mAdapter.notifyDataSetChanged();
+//                        jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
+//                    }
+//                }
+//
+//
+//                return false;
+//            }
+//        });
+//
+//        //To override what happens when x is clicked on in searchView
+//        mCloseButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (!mSearchView.getQuery().toString().isEmpty()) {
+//                    mSearchView.setQuery("", false);
+//                    mSearchView.clearFocus();
+//                    //currentPage = 1
+//                    peopleList.clear();
+//                    mAdapter.notifyDataSetChanged();
+////                    jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
+//
+//
+//                } else
+//                    mSearchView.onActionViewCollapsed();
+//            }
+//        });
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
-                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
-                        }
 
-                    else{
-                        //Cancel the current async task and request the new one
-                        jsonTask[0].cancel(true);
-                        isLoading=false;
-                        peopleList.clear();
-                        mAdapter.notifyDataSetChanged();
-                        jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
-                    }
-                } else {
-                    //currentPage = 1
-                    if(!isLoading) {
-                        peopleList.clear();
-                        mAdapter.notifyDataSetChanged();
-                        jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
-                    }
-                    else {
-                        jsonTask[0].cancel(true);
-                        isLoading = false;
-                        peopleList.clear();
-                        mAdapter.notifyDataSetChanged();
-                        jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
-                    }
-                }
-
-
-                return false;
-            }
-        });
-
-        //To override what happens when x is clicked on in searchView
-        mCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (!mSearchView.getQuery().toString().isEmpty()) {
-                    mSearchView.setQuery("", false);
-                    mSearchView.clearFocus();
-                    //currentPage = 1
-                    peopleList.clear();
-                    mAdapter.notifyDataSetChanged();
-//                    jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
-                    
-
-                } else
-                    mSearchView.onActionViewCollapsed();
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }
     public class JSONTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {

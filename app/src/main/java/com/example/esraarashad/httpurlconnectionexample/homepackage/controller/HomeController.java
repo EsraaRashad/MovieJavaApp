@@ -29,14 +29,15 @@ public class HomeController {
     private HttpURLConnection httpURLConnection;
     private BufferedReader bufferedReader;
     private URL url;
-    private String urlFromModel;
+   // private String urlFromModel;
 
-    public HomeController() {
-        homeDataNetwork= new HomeDataNetwork();
-        homeActivity = new HomeActivity();
+    public HomeController(HomeActivity homeActivity1) {
         peopleList = new ArrayList<>();
-       // urlFromModel=homeDataNetwork.sendUrl();
+        this.homeActivity=homeActivity1;
+        this.homeDataNetwork = new HomeDataNetwork(this);
+
     }
+
 
     public String setAsyncPopularObj(){
         String popStringObj=homeDataNetwork.asyncPopularObject();
@@ -70,7 +71,7 @@ public class HomeController {
                 peopleList.add(peopleResults);
             }
 
-
+            getRecyclerViewAndAdapter();
 //            mAdapter = new MyAdapter( HomeActivity.this,peopleList);
 //            recyclerView.setAdapter(mAdapter);
 //            mAdapter.notifyDataSetChanged();
@@ -129,5 +130,9 @@ public class HomeController {
 
         }
         return null;
+    }
+
+    public void getRecyclerViewAndAdapter(){
+       homeActivity.setRecyclerViewAndAdapter();
     }
 }

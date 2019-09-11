@@ -43,7 +43,6 @@ public class HomeActivity extends AppCompatActivity {
     private boolean isScrolling = false;
     int currentItems,totalItems , scrollOutItems;
     private ProgressBar progressBar;
-    private ArrayList<PeopleResults> peopleList;
     private int i=1;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Boolean isLoading = false;

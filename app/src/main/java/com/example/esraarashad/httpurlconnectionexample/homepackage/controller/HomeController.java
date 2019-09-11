@@ -1,8 +1,15 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.controller;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.ImageView;
+
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeImageNetwork;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.view.HomeActivity;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.view.MyAdapter;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,10 +32,19 @@ public class HomeController {
     private BufferedReader bufferedReader;
     private URL url;
 
+
+    InputStream inputStream=null;
+    private HomeImageNetwork homeImageNetwork;
+    private MyAdapter myAdapter;
+    private HomeActivity viewActivity;
+    private URL imgUrl = null;
+    private Bitmap bpImg = null;
+
     public HomeController(HomeActivity homeActivity1) {
         peopleList = new ArrayList<>();
         this.homeActivity=homeActivity1;
         this.homeDataNetwork = new HomeDataNetwork(this);
+        this.homeImageNetwork = new HomeImageNetwork(this);
 
     }
 
@@ -119,5 +135,33 @@ public class HomeController {
 
     public void getToastErrMsg(JSONException e){
         homeActivity.setToastErrMsg(e);
+    }
+
+    public void getLayoutMngrAndItemsOnScroll(){}
+
+    public Bitmap getImageHttpConnection(String url){
+        try {
+            imgUrl = new URL(url);
+            HttpURLConnection conn = (HttpURLConnection) imgUrl.openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            inputStream = conn.getInputStream();
+            bpImg = BitmapFactory.decodeStream(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bpImg;
+    }
+
+    public ImageView getImageViewFromAdapter(){
+        return myAdapter.sendImageView();
+    }
+
+    public void getImageResource(){
+        myAdapter.settingImageResource();
+    }
+
+    public void gettingPeopleResulteObj(){
+        myAdapter.myPeoplePojo();
     }
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.view.DetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeImageController;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
 
@@ -29,22 +30,20 @@ import java.util.concurrent.ExecutionException;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    private HomeController homeControllerAdapter;
-
     private ArrayList<PeopleResults> myPeoplePojo ;
     private Context context;
     private PeopleResults peopleResults =null;
-    ImageView imageView=null;
-    URL imgUrl = null;
-    Bitmap bpImg = null;
-    InputStream inputStream=null;
+    private ImageView imageView=null;
+    private URL imgUrl = null;
+    private Bitmap bpImg = null;
+    private InputStream inputStream=null;
+    private HomeController homeController;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public MyAdapter(Context context,ArrayList<PeopleResults> myPeoplePojo) {
         this.myPeoplePojo=myPeoplePojo;
         this.context=context;
-        //homeControllerAdapter= new HomeController();
     }
 
     @NonNull
@@ -140,4 +139,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             }
         }
     }
+
+    public ImageView sendImageView(){
+        return imageView;
+    }
+
+    public void settingImageResource(){
+        imageView.setImageResource(R.drawable.ic_launcher_background);
+    }
+
+    public PeopleResults myPeoplePojo(){
+        return peopleResults;
+    }
+
 }

@@ -1,8 +1,5 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.controller;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView;
 
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeImageNetwork;
@@ -38,7 +35,7 @@ public class HomeController {
     private MyAdapter myAdapter;
     private HomeActivity viewActivity;
     private URL imgUrl = null;
-    private Bitmap bpImg = null;
+   // private Bitmap bpImg = null;
 
     public HomeController(HomeActivity homeActivity1) {
         peopleList = new ArrayList<>();
@@ -139,23 +136,23 @@ public class HomeController {
 
     public void getLayoutMngrAndItemsOnScroll(){}
 
-    public Bitmap getImageHttpConnection(String url){
-        try {
-            imgUrl = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) imgUrl.openConnection();
-            conn.setDoInput(true);
-            conn.connect();
-            inputStream = conn.getInputStream();
-            bpImg = BitmapFactory.decodeStream(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bpImg;
-    }
-
-    public ImageView getImageViewFromAdapter(){
-        return myAdapter.sendImageView();
-    }
+//    public Bitmap getImageHttpConnection(String url){
+//        try {
+//            imgUrl = new URL(url);
+//            HttpURLConnection conn = (HttpURLConnection) imgUrl.openConnection();
+//            conn.setDoInput(true);
+//            conn.connect();
+//            inputStream = conn.getInputStream();
+//            bpImg = BitmapFactory.decodeStream(inputStream);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return bpImg;
+//    }
+//
+//    public ImageView getImageViewFromAdapter(){
+//        return myAdapter.sendImageView();
+//    }
 
     public void getImageResource(){
         myAdapter.settingImageResource();

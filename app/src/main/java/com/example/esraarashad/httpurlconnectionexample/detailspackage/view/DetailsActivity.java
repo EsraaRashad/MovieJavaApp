@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.ImageDetailsActivity;
+import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.view.ImageDetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.Profiles;
 

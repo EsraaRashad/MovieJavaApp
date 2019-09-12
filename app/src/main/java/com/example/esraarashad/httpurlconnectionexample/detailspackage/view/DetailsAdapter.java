@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.ImageDetailsActivity;
+import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.view.ImageDetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.Profiles;
 

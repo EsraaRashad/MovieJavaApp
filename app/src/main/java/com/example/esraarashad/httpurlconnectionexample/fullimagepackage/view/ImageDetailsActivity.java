@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.fullimagepackage;
+package com.example.esraarashad.httpurlconnectionexample.fullimagepackage.view;
 
 import android.Manifest;
 import android.content.Intent;

@@ -43,7 +43,7 @@ public class HomeController {
     public HomeController(HomeActivity homeActivity1) {
         peopleList = new ArrayList<>();
         this.homeActivity=homeActivity1;
-        this.homeDataNetwork = new HomeDataNetwork(this);
+       // this.homeDataNetwork = new HomeDataNetwork(this);
         this.homeImageNetwork = new HomeImageNetwork(this);
 
     }

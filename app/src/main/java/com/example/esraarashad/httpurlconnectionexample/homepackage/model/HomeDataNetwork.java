@@ -53,6 +53,16 @@ public class HomeDataNetwork implements IHomeModel{
 
     }
 
+    @Override
+    public void getRecyclerViewAndAdapter() {
+
+    }
+
+    @Override
+    public void getToastErrMsg(JSONException e) {
+
+    }
+
     // mvc
 //    public void asyncOnLoadMore(int page){
 //        new JSONTask().execute(defaultURL+page);

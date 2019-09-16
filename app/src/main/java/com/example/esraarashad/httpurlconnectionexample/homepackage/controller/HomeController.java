@@ -1,6 +1,9 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.controller;
 
 
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeImageNetwork;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
@@ -134,7 +137,7 @@ public class HomeController {
         homeActivity.setToastErrMsg(e);
     }
 
-    public void getLayoutMngrAndItemsOnScroll(){}
+    public void getLayoutMgrAndItemsOnScroll(){}
 
 //    public Bitmap getImageHttpConnection(String url){
 //        try {
@@ -158,7 +161,15 @@ public class HomeController {
         myAdapter.settingImageResource();
     }
 
-    public void gettingPeopleResulteObj(){
+    public void gettingPeopleResultObj(){
         myAdapter.myPeoplePojo();
+    }
+
+    public Bitmap getImageHttpConnection(String string) {
+        return null ;
+    }
+
+    public ImageView getImageViewFromAdapter() {
+        return null;
     }
 }

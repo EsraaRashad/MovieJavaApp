@@ -1,17 +1,12 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.model;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
-import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeImageController;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class HomeImageNetwork {

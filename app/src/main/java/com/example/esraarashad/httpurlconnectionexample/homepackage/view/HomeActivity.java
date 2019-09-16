@@ -32,7 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements IHomeView {
 
     private HomeController homeControllerView;
 
@@ -216,20 +216,42 @@ public class HomeActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
     }
 
-    public void notifyChangesInAdapter(MyAdapter adapter){
-        adapter.notifyDataSetChanged();
+    @Override
+    public void notifyChangesInAdapter(MyAdapter adapter) {
+
     }
 
-    public void getAsyncPopularObj(){
-        homeControllerView.setAsyncPopularObj();
+    @Override
+    public void getAsyncPopularObj() {
+
     }
 
-    public void getAsyncSearch(String text){
-        homeControllerView.setAsyncSearch(text);
+    @Override
+    public void getAsyncSearch(String text) {
+
     }
 
-    public void getOnLoadMoreData(int pageNum){
-        homeControllerView.setOnLoadMoreData(pageNum);
+    @Override
+    public void getOnLoadMoreData(int pageNum) {
+
     }
+
+    //mvc
+
+//    public void notifyChangesInAdapter(MyAdapter adapter){
+//        adapter.notifyDataSetChanged();
+//    }
+//
+//    public void getAsyncPopularObj(){
+//        homeControllerView.setAsyncPopularObj();
+//    }
+//
+//    public void getAsyncSearch(String text){
+//        homeControllerView.setAsyncSearch(text);
+//    }
+//
+//    public void getOnLoadMoreData(int pageNum){
+//        homeControllerView.setOnLoadMoreData(pageNum);
+//    }
     }
 

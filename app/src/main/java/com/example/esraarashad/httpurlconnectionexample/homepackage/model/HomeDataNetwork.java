@@ -52,15 +52,6 @@ public class HomeDataNetwork {
     }
 
 
-
-    public void getRecyclerViewAndAdapter() {
-
-    }
-
-    public void getToastErrMsg(JSONException e) {
-
-    }
-
     // mvc
 //    public void asyncOnLoadMore(int page){
 //        new JSONTask().execute(defaultURL+page);
@@ -113,7 +104,7 @@ public class HomeDataNetwork {
             returnListForRecyclerViewAndAdapter();
 
         } catch (JSONException e) {
-            getToastErrMsg(e);
+            e.printStackTrace();
         }
     }
 

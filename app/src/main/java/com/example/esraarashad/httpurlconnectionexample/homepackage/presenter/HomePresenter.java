@@ -22,12 +22,8 @@ public class HomePresenter {
         return homeDataNetwork.returnListForRecyclerViewAndAdapter();
     }
 
-    public void getRecyclerViewAndAdapter(){
-        view.setRecyclerViewAndAdapter();
-    }
-    public void setRecyclerAndAdapterToModel(){}
+//    public void getRecyclerViewAndAdapter(){
+//        view.setRecyclerViewAndAdapter();
+//    }
 
-    public void getToastErrMsg(JSONException e){
-        view.setToastErrMsg(e);
-    }
 }

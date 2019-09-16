@@ -64,80 +64,80 @@ public class HomeController {
         homeDataNetwork.asyncOnLoadMore(pageNum);
     }
 
-    public void getJsonData(String result){
-        try {
-
-            JSONObject peoplePojo = new JSONObject(result);
-            JSONArray jArray = peoplePojo.getJSONArray("results");
-
-            // Extract data from json and store into ArrayList as class objects
-            for (int i = 0; i < jArray.length(); i++) {
-                JSONObject json_data = jArray.getJSONObject(i);
-                PeopleResults peopleResults=new PeopleResults();
-                peopleResults.setName(json_data.getString("name")) ;
-                peopleResults.setAdult(json_data.getBoolean("adult"));
-                peopleResults.setProfile_path(json_data.getString("profile_path"));
-                peopleResults.setId(json_data.getInt("id"));
-                peopleList.add(peopleResults);
-            }
-
-            getRecyclerViewAndAdapter();
-
-        } catch (JSONException e) {
-            getToastErrMsg(e);
-        }
-    }
-
-
-    public String getHttpConnection(String urls){
-        httpURLConnection = null;
-        bufferedReader = null;
-        try {
-
-            url = new URL(urls);
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.connect();
-            InputStream inputStream = httpURLConnection.getInputStream();
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder stringBuilder=new StringBuilder();
-            String line = "";
-
-            //while loop to append data:
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-            return (stringBuilder.toString());
+//    public void getJsonData(String result){
+//        try {
+//
+//            JSONObject peoplePojo = new JSONObject(result);
+//            JSONArray jArray = peoplePojo.getJSONArray("results");
+//
+//            // Extract data from json and store into ArrayList as class objects
+//            for (int i = 0; i < jArray.length(); i++) {
+//                JSONObject json_data = jArray.getJSONObject(i);
+//                PeopleResults peopleResults=new PeopleResults();
+//                peopleResults.setName(json_data.getString("name")) ;
+//                peopleResults.setAdult(json_data.getBoolean("adult"));
+//                peopleResults.setProfile_path(json_data.getString("profile_path"));
+//                peopleResults.setId(json_data.getInt("id"));
+//                peopleList.add(peopleResults);
+//            }
+//
+//            getRecyclerViewAndAdapter();
+//
+//        } catch (JSONException e) {
+//            getToastErrMsg(e);
+//        }
+//    }
 
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            // here we will close the bufferedReader and the httpURLConnection
-            if (httpURLConnection != null) {
-                httpURLConnection.disconnect();
-            }
-
-            try {
-                bufferedReader.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return null;
-    }
-
-    public void getRecyclerViewAndAdapter(){
-       homeActivity.setRecyclerViewAndAdapter(peopleList);
-    }
-
-    public void getToastErrMsg(JSONException e){
-        homeActivity.setToastErrMsg(e);
-    }
-
-    public void getLayoutMgrAndItemsOnScroll(){}
+//    public String getHttpConnection(String urls){
+//        httpURLConnection = null;
+//        bufferedReader = null;
+//        try {
+//
+//            url = new URL(urls);
+//            httpURLConnection = (HttpURLConnection) url.openConnection();
+//            httpURLConnection.connect();
+//            InputStream inputStream = httpURLConnection.getInputStream();
+//            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//            StringBuilder stringBuilder=new StringBuilder();
+//            String line = "";
+//
+//            //while loop to append data:
+//            while ((line = bufferedReader.readLine()) != null) {
+//                stringBuilder.append(line);
+//            }
+//            return (stringBuilder.toString());
+//
+//
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            // here we will close the bufferedReader and the httpURLConnection
+//            if (httpURLConnection != null) {
+//                httpURLConnection.disconnect();
+//            }
+//
+//            try {
+//                bufferedReader.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//        return null;
+//    }
+//
+//    public void getRecyclerViewAndAdapter(){
+//      // homeActivity.setRecyclerViewAndAdapter(peopleList);
+//    }
+//
+//    public void getToastErrMsg(JSONException e){
+//        homeActivity.setToastErrMsg(e);
+//    }
+//
+//    public void getLayoutMgrAndItemsOnScroll(){}
 
 //    public Bitmap getImageHttpConnection(String url){
 //        try {

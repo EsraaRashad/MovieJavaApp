@@ -110,11 +110,15 @@ public class HomeDataNetwork {
                 peopleList.add(peopleResults);
             }
 
-            getRecyclerViewAndAdapter();
+            returnListForRecyclerViewAndAdapter();
 
         } catch (JSONException e) {
             getToastErrMsg(e);
         }
+    }
+
+    public ArrayList<PeopleResults> returnListForRecyclerViewAndAdapter(){
+        return peopleList;
     }
 
     public String getHttpConnection(String urls){

@@ -12,6 +12,6 @@ public interface IHomeView {
      void getAsyncPopularObj();
      void getAsyncSearch(String text);
      void getOnLoadMoreData(int pageNum);
-     void setRecyclerViewAndAdapter( ArrayList<PeopleResults> peopleList);
+     void setRecyclerViewAndAdapter();
      void setToastErrMsg(JSONException e);
 }

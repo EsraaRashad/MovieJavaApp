@@ -12,21 +12,20 @@ import org.json.JSONException;
 public class HomePresenter {
     private HomeDataNetwork homeDataNetwork;
     private IHomeView view;
-    private ArrayList<PeopleResults> peopleList;
 
     public HomePresenter(IHomeView view) {
         this.view = view;
         this.homeDataNetwork = new HomeDataNetwork();
-        peopleList = new ArrayList<>();
     }
 
-    public ArrayList<PeopleResults> getPeopleListFromController(){
-        return peopleList;
+    public ArrayList<PeopleResults> getPeopleListFromModel(){
+        return homeDataNetwork.returnListForRecyclerViewAndAdapter();
     }
 
     public void getRecyclerViewAndAdapter(){
-        view.setRecyclerViewAndAdapter(peopleList);
+        view.setRecyclerViewAndAdapter();
     }
+    public void setRecyclerAndAdapterToModel(){}
 
     public void getToastErrMsg(JSONException e){
         view.setToastErrMsg(e);

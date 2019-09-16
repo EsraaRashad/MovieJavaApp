@@ -1,6 +1,5 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.view;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -18,22 +17,8 @@ import android.widget.Toast;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
-import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.presenter.HomePresenter;
-
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements IHomeView {
@@ -212,8 +197,9 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
         Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
     }
 
-    public void setRecyclerViewAndAdapter( ArrayList<PeopleResults> peopleList){
-        mAdapter = new MyAdapter( HomeActivity.this,peopleList);
+
+    public void setRecyclerViewAndAdapter(){
+        mAdapter = new MyAdapter( HomeActivity.this,presenter.getPeopleListFromModel());
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);

@@ -18,13 +18,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class HomeDataNetwork implements IHomeModel{
+public class HomeDataNetwork {
     private String defaultURL;
-    private HomeController homeControllerModel;
     private Boolean isLoading = false;
     private String searchUrl;
-    private HomeDataNetwork homeDataNetwork;
-    private HomeActivity homeActivity;
+
     private ArrayList<PeopleResults> peopleList;
     private HttpURLConnection httpURLConnection;
     private BufferedReader bufferedReader;
@@ -43,22 +41,22 @@ public class HomeDataNetwork implements IHomeModel{
        return jsonTasks;
     }
 
-    @Override
+
     public void asyncOnLoadMore(int page) {
-
+        new JSONTask().execute(defaultURL+page);
     }
 
-    @Override
+
     public void asyncPopularObject() {
-
+        new JSONTask().execute(defaultURL);
     }
 
-    @Override
+
+
     public void getRecyclerViewAndAdapter() {
 
     }
 
-    @Override
     public void getToastErrMsg(JSONException e) {
 
     }

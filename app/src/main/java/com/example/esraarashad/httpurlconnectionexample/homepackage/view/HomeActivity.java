@@ -18,6 +18,10 @@ import android.widget.Toast;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
+import com.example.esraarashad.httpurlconnectionexample.R;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.presenter.HomePresenter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,10 +51,14 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
     private SwipeRefreshLayout swipeRefreshLayout;
     private Boolean isLoading = false;
 
+    private HomePresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
+        presenter = new HomePresenter(this);
 
         homeControllerView = new HomeController(this);
         progressBar=findViewById(R.id.progress);

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.view.DetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeImageController;
@@ -32,12 +33,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private ArrayList<PeopleResults> myPeoplePojo ;
     private Context context;
-    private PeopleResults peopleResults =null;
-    private ImageView imageView=null;
-    private URL imgUrl = null;
-    private Bitmap bpImg = null;
-    private InputStream inputStream=null;
-    private HomeController homeController;
+    private PeopleResults peopleResults;
+    
+//    private URL imgUrl = null;
+//    private Bitmap bpImg = null;
+//    private InputStream inputStream=null;
+//    private HomeController homeController;
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
@@ -62,14 +63,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         myHolder.nameTextView.setText(peopleResults.getName());
         myHolder.adultTextView.setText("For Adults : "+peopleResults.getAdult());
 
-        Log.i("Adult",peopleResults.getAdult().toString());
-        try {
-            imageView.setImageBitmap(new AsyncTaskImage(imageView).execute("https://image.tmdb.org/t/p/w500/"+peopleResults.getProfile_path()).get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+        if (myHolder.imageView != null){
+            Glide.with(context).load("https://image.tmdb.org/t/p/w500/"+peopleResults.getProfile_path())
+                    .into(viewHolder.imageView);
+        }else{
+            Glide.with(context).load(R.drawable.ic_launcher_background).into(viewHolder.imageView);
         }
+
+        Log.i("Adult",peopleResults.getAdult().toString());
+//        try {
+//            imageView.setImageBitmap(new AsyncTaskImage(imageView).execute("https://image.tmdb.org/t/p/w500/"+peopleResults.getProfile_path()).get());
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         myHolder.bind (peopleResults);
     }
 
@@ -80,6 +89,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public  class MyViewHolder extends RecyclerView.ViewHolder{
 
+        private ImageView imageView;
         public TextView nameTextView;
         public TextView adultTextView;
         public LinearLayout linearLayout;
@@ -109,47 +119,47 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
-    public class AsyncTaskImage extends AsyncTask<String,Void, Bitmap>{
-
-        public AsyncTaskImage(ImageView imageView) {
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            try {
-                imgUrl = new URL(strings[0]);
-                HttpURLConnection conn = (HttpURLConnection) imgUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                inputStream = conn.getInputStream();
-                bpImg = BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bpImg;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (bitmap != null){
-                imageView.setImageBitmap(bitmap);
-            }else{
-                imageView.setImageResource(R.drawable.ic_launcher_background);
-            }
-        }
-    }
-
-    public ImageView sendImageView(){
-        return imageView;
-    }
-
-    public void settingImageResource(){
-        imageView.setImageResource(R.drawable.ic_launcher_background);
-    }
-
-    public PeopleResults myPeoplePojo(){
-        return peopleResults;
-    }
+//    public class AsyncTaskImage extends AsyncTask<String,Void, Bitmap>{
+//
+//        public AsyncTaskImage(ImageView imageView) {
+//        }
+//
+//        @Override
+//        protected Bitmap doInBackground(String... strings) {
+//            try {
+//                imgUrl = new URL(strings[0]);
+//                HttpURLConnection conn = (HttpURLConnection) imgUrl.openConnection();
+//                conn.setDoInput(true);
+//                conn.connect();
+//                inputStream = conn.getInputStream();
+//                bpImg = BitmapFactory.decodeStream(inputStream);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return bpImg;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Bitmap bitmap) {
+//            super.onPostExecute(bitmap);
+//            if (bitmap != null){
+//                imageView.setImageBitmap(bitmap);
+//            }else{
+//                imageView.setImageResource(R.drawable.ic_launcher_background);
+//            }
+//        }
+//    }
+//
+//    public ImageView sendImageView(){
+//        return imageView;
+//    }
+//
+//    public void settingImageResource(){
+//        imageView.setImageResource(R.drawable.ic_launcher_background);
+//    }
+//
+//    public PeopleResults myPeoplePojo(){
+//        return peopleResults;
+//    }
 
 }

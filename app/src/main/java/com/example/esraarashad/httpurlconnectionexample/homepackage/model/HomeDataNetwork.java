@@ -118,7 +118,7 @@ public class HomeDataNetwork implements IHomeModel{
             super.onPostExecute(result);
             isLoading=false;
             getJsonData(result);
-            taskCompleted.onTaskCompleted(result);
+//            taskCompleted.onTaskCompleted(result);
 
         }
     }
@@ -141,7 +141,7 @@ public class HomeDataNetwork implements IHomeModel{
             }
            // homePresenter.setList(peopleList);
 
-            taskCompleted.returnListForRecyclerViewAndAdapter();
+            returnListForRecyclerViewAndAdapter();
 
         } catch (JSONException e) {
             e.printStackTrace();

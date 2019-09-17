@@ -15,6 +15,8 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.IHomeModel;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.presenter.HomePresenter;
@@ -43,7 +45,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
         setContentView(R.layout.activity_home);
 
 
-        presenter = new HomePresenter(this);
+        presenter = new HomePresenter(this, new HomeDataNetwork());
 
         homeControllerView = new HomeController(this);
         progressBar=findViewById(R.id.progress);
@@ -69,6 +71,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                 if (isScrolling && (currentItems + scrollOutItems == totalItems)){
                     isScrolling = false ;
                     i++;
+                  //  presenter.updatePage(i);
                     progressBar.setVisibility(View.VISIBLE);
                     getOnLoadMoreData(i);
                 }

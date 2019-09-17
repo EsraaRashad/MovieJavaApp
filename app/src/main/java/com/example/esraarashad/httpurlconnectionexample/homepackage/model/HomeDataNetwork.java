@@ -140,7 +140,7 @@ public class HomeDataNetwork implements IHomeModel{
                 peopleList.add(peopleResults);
             }
            // homePresenter.setList(peopleList);
-
+            System.out.println("first element into peaopleList: "+peopleList.get(0));
             returnListForRecyclerViewAndAdapter();
 
         } catch (JSONException e) {
@@ -149,7 +149,6 @@ public class HomeDataNetwork implements IHomeModel{
     }
     @Override
     public ArrayList<PeopleResults> returnListForRecyclerViewAndAdapter(){
-
         return this.peopleList;
     }
 

@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
         layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerView = findViewById(R.id.my_recycler_view);
-
+        getAsyncPopularObj();
         progressBar.setVisibility(View.GONE);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -217,7 +217,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
 
     @Override
     public void getAsyncPopularObj() {
-
+        presenter.asyncPopular();
     }
 
     @Override

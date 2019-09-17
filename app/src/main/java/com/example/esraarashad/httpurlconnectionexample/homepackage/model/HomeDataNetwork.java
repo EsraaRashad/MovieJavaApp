@@ -1,9 +1,9 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.model;
 
 import android.os.AsyncTask;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
+
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.view.HomeActivity;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.presenter.HomePresenter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +27,8 @@ public class HomeDataNetwork {
     private HttpURLConnection httpURLConnection;
     private BufferedReader bufferedReader;
     private URL url;
+
+    HomePresenter homePresenter ;
 
     public HomeDataNetwork() {
         peopleList = new ArrayList<>();
@@ -54,7 +56,7 @@ public class HomeDataNetwork {
 
     // mvc
 //    public void asyncOnLoadMore(int page){
-//        new JSONTask().execute(defaultURL+page);
+//      0  new JSONTask().execute(defaultURL+page);
 //    }
 //
 //    public void asyncPopularObject(){
@@ -100,6 +102,7 @@ public class HomeDataNetwork {
                 peopleResults.setId(json_data.getInt("id"));
                 peopleList.add(peopleResults);
             }
+           // homePresenter.setList(peopleList);
 
             returnListForRecyclerViewAndAdapter();
 
@@ -109,7 +112,8 @@ public class HomeDataNetwork {
     }
 
     public ArrayList<PeopleResults> returnListForRecyclerViewAndAdapter(){
-        return peopleList;
+
+        return homePresenter.getPeopleListFromModel(this.peopleList);
     }
 
     public String getHttpConnection(String urls){

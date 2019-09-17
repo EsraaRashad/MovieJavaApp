@@ -36,6 +36,7 @@ public class HomePresenter {
     }
     public void asyncPopular() {
         model.asyncPopularObject();
+        model.returnListForRecyclerViewAndAdapter();
         view.setRecyclerViewAndAdapter();
     }
 

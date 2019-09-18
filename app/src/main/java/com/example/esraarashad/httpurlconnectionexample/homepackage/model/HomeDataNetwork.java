@@ -1,11 +1,7 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.model;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.presenter.HomePresenter;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,13 +24,7 @@ public class HomeDataNetwork implements IHomeModel{
     private static HttpURLConnection httpURLConnection;
     private static BufferedReader bufferedReader;
     private static URL url;
-    private String receivedResponse;
-//    private AsyncResponse response;
-
-    HomePresenter homePresenter ;
-
     private IHomeModel delegate = null; //Call back interface
-    private int newPage=1;
 
     public HomeDataNetwork() {
         peopleList = new ArrayList<>();
@@ -56,16 +46,6 @@ public class HomeDataNetwork implements IHomeModel{
        // jsonTasks[0]= (JSONTask) new JSONTask().execute(searchUrl+text);
        return jsonTasks;
     }
-
-
-    // mvc
-//    public void asyncOnLoadMore(int page){
-//        new JSONTask().execute(defaultURL+page);
-//    }
-//
-//    public void asyncPopularObject(){
-//        new JSONTask().execute(defaultURL);
-//    }
 
     public static class JSONTask extends AsyncTask<String, String, String> {
         public AsyncResponse delegate = null;//Call back interface
@@ -89,11 +69,7 @@ public class HomeDataNetwork implements IHomeModel{
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             isLoading=false;
-
             delegate.processFinish(getJsonData(result));
-           // returnListForRecyclerViewAndAdapter();
-//            taskCompleted.onTaskCompleted(result);
-
         }
     }
 
@@ -114,21 +90,13 @@ public class HomeDataNetwork implements IHomeModel{
                 peopleResults.setId(json_data.getInt("id"));
                 peopleList.add(peopleResults);
             }
-           // homePresenter.setList(peopleList);
             System.out.println("first element into peaopleList: "+peopleList.get(0));
-           // returnListForRecyclerViewAndAdapter();
-         //   setListForRecyclerViewAndAdapter(peopleList);
-
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return peopleList;
     }
-//    @Override
-//    public ArrayList<PeopleResults> returnListForRecyclerViewAndAdapter(){
-//        return this.peopleList;
-//    }
 
     public static String getHttpConnection(String urls){
         httpURLConnection = null;

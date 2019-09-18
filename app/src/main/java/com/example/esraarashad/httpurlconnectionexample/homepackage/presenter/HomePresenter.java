@@ -34,23 +34,27 @@ public class HomePresenter {
         });
         callApi.execute(model.getDefaultURL()+page);
     }
-    public void asyncPopular() {
 
+    public void asyncPopular() {
         HomeDataNetwork.JSONTask callApi=new HomeDataNetwork.JSONTask(response=new AsyncResponse() {
 
             @Override
             public void processFinish(ArrayList<PeopleResults> outputList) {
                 view.setRecyclerViewAndAdapter(outputList);
-              //  list.addAll(outputList);
             }
         });
         callApi.execute(model.getDefaultURL());
-
     }
 
-    public ArrayList<PeopleResults> getList(){
-        return list;
-    }
+    public void asyncSearch(String text){
+        HomeDataNetwork.JSONTask callApi=new HomeDataNetwork.JSONTask(response=new AsyncResponse() {
 
+            @Override
+            public void processFinish(ArrayList<PeopleResults> outputList) {
+                view.setRecyclerViewAndAdapter(outputList);
+            }
+        });
+        callApi.execute(model.getSearchUrl()+text);
+    }
 
 }

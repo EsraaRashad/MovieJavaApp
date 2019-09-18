@@ -58,43 +58,9 @@ public class HomeDataNetwork implements IHomeModel{
     }
 
 
-    @Override
-    public void asyncOnLoadMore() {
-        int incrPage=returnIncrementedPage();
-        //new JSONTask().execute(defaultURL+incrPage);
-    }
-
-    @Override
-    public void incrementPage(int page) {
-     page++;
-     newPage=page;
-    }
-
-    @Override
-    public int returnIncrementedPage() {
-        return newPage;
-    }
-
-    @Override
-    public void asyncPopularObject() {
-       // new JSONTask().execute(defaultURL);
-//        JSONTask callApi=new JSONTask(response=new AsyncResponse() {
-//            @Override
-//            public void processFinish(ArrayList<PeopleResults> outputList) {
-//
-//                //process after callback
-////                       response.setListForRecyclerViewAndAdapter(outputList);
-//
-//            }
-//
-//        });
-//        callApi.execute(defaultURL);
-    }
-
-
     // mvc
 //    public void asyncOnLoadMore(int page){
-//      0  new JSONTask().execute(defaultURL+page);
+//        new JSONTask().execute(defaultURL+page);
 //    }
 //
 //    public void asyncPopularObject(){

@@ -19,26 +19,12 @@ public class HomePresenter {
         this.model=model;
     }
 
-//    public String  getResult(){
-//        String result=model.sendResponse();
-//       return result;
-//    }
-
-//    public ArrayList<PeopleResults> getPeopleListFromModel(){
-//
-//        return model.returnListForRecyclerViewAndAdapter();
-//    }
-
     public void updatePage(int page){
-        model.incrementPage(page);
+        page++;
+        asyncOnLoadMorePages(page);
     }
 
-    public void asyncOnLoadMorePages(){
-        model.asyncOnLoadMore();
-    }
-    public void asyncPopular() {
-       // model.asyncPopularObject();
-
+    public void asyncOnLoadMorePages(int page){
         HomeDataNetwork.JSONTask callApi=new HomeDataNetwork.JSONTask(response=new AsyncResponse() {
 
             @Override
@@ -46,21 +32,25 @@ public class HomePresenter {
                 view.setRecyclerViewAndAdapter(outputList);
             }
         });
+        callApi.execute(model.getDefaultURL()+page);
+    }
+    public void asyncPopular() {
+
+        HomeDataNetwork.JSONTask callApi=new HomeDataNetwork.JSONTask(response=new AsyncResponse() {
+
+            @Override
+            public void processFinish(ArrayList<PeopleResults> outputList) {
+                view.setRecyclerViewAndAdapter(outputList);
+              //  list.addAll(outputList);
+            }
+        });
         callApi.execute(model.getDefaultURL());
 
-
-      //  model.returnListForRecyclerViewAndAdapter();
-       // view.setRecyclerViewAndAdapter();
     }
 
-    public void setList(ArrayList<PeopleResults> peopleList) {
-        list.addAll(peopleList);
+    public ArrayList<PeopleResults> getList(){
+        return list;
     }
 
-
-
-//    public void getRecyclerViewAndAdapter(){
-//        view.setRecyclerViewAndAdapter();
-//    }
 
 }

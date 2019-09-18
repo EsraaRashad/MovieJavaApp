@@ -41,17 +41,17 @@ public class HomeController {
         return peopleList;
     }
 
-    public void setAsyncPopularObj(){
-        homeDataNetwork.asyncPopularObject();
-    }
+//    public void setAsyncPopularObj(){
+//        homeDataNetwork.asyncPopularObject();
+//    }
 
     public void setAsyncSearch(String text){
         homeDataNetwork.asyncSearch(text);
     }
 
-    public void setOnLoadMoreData(int pageNum){
-        homeDataNetwork.asyncOnLoadMore();
-    }
+//    public void setOnLoadMoreData(int pageNum){
+//        homeDataNetwork.asyncOnLoadMore();
+//    }
 
 //    public void getJsonData(String result){
 //        try {

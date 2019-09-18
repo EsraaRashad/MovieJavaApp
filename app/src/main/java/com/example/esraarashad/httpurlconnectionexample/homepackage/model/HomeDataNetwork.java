@@ -18,7 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class HomeDataNetwork {
+public class HomeDataNetwork implements IHomeModel{
     private String defaultURL;
     private Boolean isLoading = false;
     private String searchUrl;
@@ -27,8 +27,12 @@ public class HomeDataNetwork {
     private HttpURLConnection httpURLConnection;
     private BufferedReader bufferedReader;
     private URL url;
+    private String receivedResponse;
 
     HomePresenter homePresenter ;
+
+    private IHomeModel taskCompleted;
+    private int newPage=1;
 
     public HomeDataNetwork() {
         peopleList = new ArrayList<>();
@@ -36,21 +40,53 @@ public class HomeDataNetwork {
         searchUrl="https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query=";
     }
 
-
+    @Override
     public JSONTask[] asyncSearch(String text){
         JSONTask[] jsonTasks={null};
         jsonTasks[0]= (JSONTask) new JSONTask().execute(searchUrl+text);
        return jsonTasks;
     }
 
-
-    public void asyncOnLoadMore(int page) {
-        new JSONTask().execute(defaultURL+page);
+    @Override
+    public String sendResponse() {
+        return this.receivedResponse;
     }
 
+    @Override
+    public void asyncOnLoadMore() {
+        int incrPage=returnIncrementedPage();
+        new JSONTask().execute(defaultURL+incrPage);
+    }
 
+    @Override
+    public void incrementPage(int page) {
+     page++;
+     newPage=page;
+    }
+
+    @Override
+    public int returnIncrementedPage() {
+        return newPage;
+    }
+
+    @Override
     public void asyncPopularObject() {
         new JSONTask().execute(defaultURL);
+    }
+
+    @Override
+    public void getRecyclerViewAndAdapter() {
+
+    }
+
+    @Override
+    public void getToastErrMsg(JSONException e) {
+
+    }
+
+    @Override
+    public Boolean onTaskCompleted(String response) {
+        return true;
     }
 
 
@@ -82,6 +118,7 @@ public class HomeDataNetwork {
             super.onPostExecute(result);
             isLoading=false;
             getJsonData(result);
+//            taskCompleted.onTaskCompleted(result);
 
         }
     }
@@ -103,17 +140,16 @@ public class HomeDataNetwork {
                 peopleList.add(peopleResults);
             }
            // homePresenter.setList(peopleList);
-
+            System.out.println("first element into peaopleList: "+peopleList.get(0));
             returnListForRecyclerViewAndAdapter();
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-
+    @Override
     public ArrayList<PeopleResults> returnListForRecyclerViewAndAdapter(){
-
-        return homePresenter.getPeopleListFromModel(this.peopleList);
+        return this.peopleList;
     }
 
     public String getHttpConnection(String urls){

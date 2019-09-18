@@ -61,7 +61,7 @@ public class HomeController {
     }
 
     public void setOnLoadMoreData(int pageNum){
-        homeDataNetwork.asyncOnLoadMore(pageNum);
+        homeDataNetwork.asyncOnLoadMore();
     }
 
 //    public void getJsonData(String result){

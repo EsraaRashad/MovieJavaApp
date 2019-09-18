@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.view.DetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeImageController;
@@ -66,6 +67,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         if (myHolder.imageView != null){
             Glide.with(context).load("https://image.tmdb.org/t/p/w500/"+peopleResults.getProfile_path())
+                    .apply(new RequestOptions()
+                            .override(200,200))
                     .into(viewHolder.imageView);
         }else{
             Glide.with(context).load(R.drawable.ic_launcher_background).into(viewHolder.imageView);

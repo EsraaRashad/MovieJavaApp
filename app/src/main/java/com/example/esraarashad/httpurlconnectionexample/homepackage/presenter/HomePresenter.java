@@ -1,5 +1,6 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.presenter;
 
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.AsyncResponse;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.IHomeModel;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
@@ -11,6 +12,7 @@ public class HomePresenter {
     private IHomeModel model;
     private IHomeView view;
     private ArrayList<PeopleResults> list;
+    private AsyncResponse response;
 
     public HomePresenter(IHomeView view, IHomeModel model) {
         this.view = view;
@@ -22,10 +24,10 @@ public class HomePresenter {
 //       return result;
 //    }
 
-    public ArrayList<PeopleResults> getPeopleListFromModel(){
-
-        return model.returnListForRecyclerViewAndAdapter();
-    }
+//    public ArrayList<PeopleResults> getPeopleListFromModel(){
+//
+//        return model.returnListForRecyclerViewAndAdapter();
+//    }
 
     public void updatePage(int page){
         model.incrementPage(page);
@@ -35,14 +37,26 @@ public class HomePresenter {
         model.asyncOnLoadMore();
     }
     public void asyncPopular() {
-        model.asyncPopularObject();
-        model.returnListForRecyclerViewAndAdapter();
-        view.setRecyclerViewAndAdapter();
+       // model.asyncPopularObject();
+
+        HomeDataNetwork.JSONTask callApi=new HomeDataNetwork.JSONTask(response=new AsyncResponse() {
+
+            @Override
+            public void processFinish(ArrayList<PeopleResults> outputList) {
+                view.setRecyclerViewAndAdapter(outputList);
+            }
+        });
+        callApi.execute(model.getDefaultURL());
+
+
+      //  model.returnListForRecyclerViewAndAdapter();
+       // view.setRecyclerViewAndAdapter();
     }
 
     public void setList(ArrayList<PeopleResults> peopleList) {
         list.addAll(peopleList);
     }
+
 
 
 //    public void getRecyclerViewAndAdapter(){

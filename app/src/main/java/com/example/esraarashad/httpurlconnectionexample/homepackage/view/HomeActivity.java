@@ -91,7 +91,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                         // cancle the Visual indication of a refresh
 
                         // clear the list
-                        presenter.getPeopleListFromModel().clear();
+                       // presenter.getPeopleListFromModel().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                         swipeRefreshLayout.setRefreshing(false);
@@ -129,7 +129,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                         //Clear then make a request for search
 
                         //peopleList.clear();
-                        presenter.getPeopleListFromModel().clear();
+                      //  presenter.getPeopleListFromModel().clear();
                         mAdapter.notifyDataSetChanged();
 
                         getAsyncSearch(newText);
@@ -142,7 +142,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                        // jsonTask[0].cancel(true);
                         isLoading=false;
                         //peopleList.clear();
-                        presenter.getPeopleListFromModel().clear();
+                       // presenter.getPeopleListFromModel().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncSearch(newText);
                         //jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
@@ -151,7 +151,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                     //currentPage = 1
                     if(!isLoading) {
                        // peopleList.clear();
-                        presenter.getPeopleListFromModel().clear();
+                       // presenter.getPeopleListFromModel().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                        // jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
@@ -160,7 +160,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                         //jsonTask[0].cancel(true);
                         isLoading = false;
                         //peopleList.clear();
-                        presenter.getPeopleListFromModel().clear();
+                       // presenter.getPeopleListFromModel().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                         //jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
@@ -182,7 +182,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                     mSearchView.clearFocus();
                     //currentPage = 1
                     //peopleList.clear();
-                    presenter.getPeopleListFromModel().clear();
+                   // presenter.getPeopleListFromModel().clear();
                     mAdapter.notifyDataSetChanged();
 //                    jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
                     getAsyncPopularObj();
@@ -200,9 +200,9 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
         Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
     }
 
-
-    public void setRecyclerViewAndAdapter(){
-        mAdapter = new MyAdapter( HomeActivity.this,presenter.getPeopleListFromModel());
+//presenter.getPeopleListFromModel();
+    public void setRecyclerViewAndAdapter(ArrayList<PeopleResults> list){
+        mAdapter = new MyAdapter( HomeActivity.this,list);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);

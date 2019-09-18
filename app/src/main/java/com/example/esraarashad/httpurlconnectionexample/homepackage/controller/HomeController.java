@@ -1,25 +1,14 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.controller;
 
 
-import android.graphics.Bitmap;
-import android.widget.ImageView;
-
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeImageNetwork;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.view.HomeActivity;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.view.MyAdapter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -34,7 +23,7 @@ public class HomeController {
 
 
     InputStream inputStream=null;
-    private HomeImageNetwork homeImageNetwork;
+   // private HomeImageNetwork homeImageNetwork;
     private MyAdapter myAdapter;
     private HomeActivity viewActivity;
     private URL imgUrl = null;
@@ -44,7 +33,7 @@ public class HomeController {
         peopleList = new ArrayList<>();
         this.homeActivity=homeActivity1;
        // this.homeDataNetwork = new HomeDataNetwork(this);
-        this.homeImageNetwork = new HomeImageNetwork(this);
+       // this.homeImageNetwork = new HomeImageNetwork(this);
 
     }
 
@@ -157,19 +146,20 @@ public class HomeController {
 //        return myAdapter.sendImageView();
 //    }
 
-    public void getImageResource(){
-        myAdapter.settingImageResource();
-    }
 
-    public void gettingPeopleResultObj(){
-        myAdapter.myPeoplePojo();
-    }
-
-    public Bitmap getImageHttpConnection(String string) {
-        return null ;
-    }
-
-    public ImageView getImageViewFromAdapter() {
-        return null;
-    }
+//    public void getImageResource(){
+//        myAdapter.settingImageResource();
+//    }
+//
+//    public void gettingPeopleResultObj(){
+//        myAdapter.myPeoplePojo();
+//    }
+//
+//    public Bitmap getImageHttpConnection(String string) {
+//        return null ;
+//    }
+//
+//    public ImageView getImageViewFromAdapter() {
+//        return null;
+//    }
 }

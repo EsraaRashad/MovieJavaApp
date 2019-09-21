@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
         layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);
         recyclerView = findViewById(R.id.my_recycler_view);
-        getAsyncPopularObj();
+        //getAsyncPopularObj();
         progressBar.setVisibility(View.GONE);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

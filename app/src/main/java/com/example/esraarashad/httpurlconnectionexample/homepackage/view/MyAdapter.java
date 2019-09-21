@@ -34,7 +34,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     private ArrayList<PeopleResults> myPeoplePojo ;
     private Context context;
     private PeopleResults peopleResults;
-    
+
 //    private URL imgUrl = null;
 //    private Bitmap bpImg = null;
 //    private InputStream inputStream=null;

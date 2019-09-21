@@ -13,10 +13,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
-
-import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.model.IHomeModel;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.presenter.HomePresenter;
@@ -24,9 +21,6 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements IHomeView {
-
-    private HomeController homeControllerView;
-
 
     private RecyclerView recyclerView;
     private MyAdapter mAdapter;
@@ -37,17 +31,15 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
     private int i=1;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Boolean isLoading = false;
-
+    private ArrayList<PeopleResults> peopleResultsList;
     private HomePresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-
+        peopleResultsList = new ArrayList<>();
         presenter = new HomePresenter(this, new HomeDataNetwork());
-
-        homeControllerView = new HomeController(this);
         progressBar=findViewById(R.id.progress);
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout);
         layoutManager=new LinearLayoutManager(HomeActivity.this,LinearLayoutManager.VERTICAL,false);
@@ -70,10 +62,8 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                 scrollOutItems=layoutManager.findFirstVisibleItemPosition();
                 if (isScrolling && (currentItems + scrollOutItems == totalItems)){
                     isScrolling = false ;
-                    i++;
-                  //  presenter.updatePage(i);
+                    presenter.updatePage(i);
                     progressBar.setVisibility(View.VISIBLE);
-                    getOnLoadMoreData(i);
                 }
 
             }
@@ -89,9 +79,8 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                     @Override
                     public void run() {
                         // cancle the Visual indication of a refresh
-
                         // clear the list
-                        presenter.getPeopleListFromModel().clear();
+                        getPeopleResultsList().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                         swipeRefreshLayout.setRefreshing(false);
@@ -99,22 +88,17 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                 }, 3000);
             }
         });
-
         getAsyncPopularObj();
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-
-        //final JSONTask[] jsonTask = {null};
         MenuItem mSearchItem = menu.findItem(R.id.menu_search);
         final SearchView mSearchView = (SearchView) mSearchItem.getActionView();
         View mCloseButton = mSearchView.findViewById(getResources().getIdentifier("android:id/search_close_btn",null,null));
 
         mSearchView.setQueryHint("Search by name...");
-
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -127,22 +111,16 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                 if (!newText.isEmpty()) {
                     if(!isLoading) {
                         //Clear then make a request for search
-
-                        //peopleList.clear();
-                        presenter.getPeopleListFromModel().clear();
+                        getPeopleResultsList().clear();
                         mAdapter.notifyDataSetChanged();
-
                         getAsyncSearch(newText);
-
                        // jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
                         }
 
                     else{
                         //Cancel the current async task and request the new one
-                       // jsonTask[0].cancel(true);
                         isLoading=false;
-                        //peopleList.clear();
-                        presenter.getPeopleListFromModel().clear();
+                        getPeopleResultsList().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncSearch(newText);
                         //jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
@@ -150,24 +128,19 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                 } else {
                     //currentPage = 1
                     if(!isLoading) {
-                       // peopleList.clear();
-                        presenter.getPeopleListFromModel().clear();
+                        getPeopleResultsList().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                        // jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
                     }
                     else {
-                        //jsonTask[0].cancel(true);
                         isLoading = false;
-                        //peopleList.clear();
-                        presenter.getPeopleListFromModel().clear();
+                        getPeopleResultsList().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                         //jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
                     }
                 }
-
-
                 return false;
             }
         });
@@ -181,13 +154,9 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                     mSearchView.setQuery("", false);
                     mSearchView.clearFocus();
                     //currentPage = 1
-                    //peopleList.clear();
-                    presenter.getPeopleListFromModel().clear();
+                    getPeopleResultsList().clear();
                     mAdapter.notifyDataSetChanged();
-//                    jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
                     getAsyncPopularObj();
-
-
                 } else
                     mSearchView.onActionViewCollapsed();
             }
@@ -200,19 +169,21 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
         Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
     }
 
-
-    public void setRecyclerViewAndAdapter(){
-        mAdapter = new MyAdapter( HomeActivity.this,presenter.getPeopleListFromModel());
+    public void setRecyclerViewAndAdapter(ArrayList<PeopleResults> list){
+        peopleResultsList.addAll(list);
+        mAdapter = new MyAdapter( HomeActivity.this,list);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(20);
         recyclerView.setDrawingCacheEnabled(true);
         notifyChangesInAdapter(mAdapter);
-        //mAdapter.notifyDataSetChanged();
         progressBar.setVisibility(View.GONE);
     }
 
+    public ArrayList<PeopleResults> getPeopleResultsList(){
+        return peopleResultsList;
+    }
     @Override
     public void notifyChangesInAdapter(MyAdapter adapter) {
         adapter.notifyDataSetChanged();
@@ -225,30 +196,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
 
     @Override
     public void getAsyncSearch(String text) {
-
+        presenter.asyncSearch(text);
     }
-
-    @Override
-    public void getOnLoadMoreData(int pageNum) {
-
-    }
-
-    //mvc
-
-//    public void notifyChangesInAdapter(MyAdapter adapter){
-//        adapter.notifyDataSetChanged();
-//    }
-//
-//    public void getAsyncPopularObj(){
-//        homeControllerView.setAsyncPopularObj();
-//    }
-//
-//    public void getAsyncSearch(String text){
-//        homeControllerView.setAsyncSearch(text);
-//    }
-//
-//    public void getOnLoadMoreData(int pageNum){
-//        homeControllerView.setOnLoadMoreData(pageNum);
-//    }
-    }
+}
 

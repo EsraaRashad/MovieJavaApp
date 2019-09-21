@@ -1,10 +1,7 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.model;
 
 import android.os.AsyncTask;
-
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.presenter.HomePresenter;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,19 +17,14 @@ import java.util.ArrayList;
 
 public class HomeDataNetwork implements IHomeModel{
     private String defaultURL;
-    private Boolean isLoading = false;
+    private static Boolean isLoading = false;
     private String searchUrl;
 
-    private ArrayList<PeopleResults> peopleList;
-    private HttpURLConnection httpURLConnection;
-    private BufferedReader bufferedReader;
-    private URL url;
-    private String receivedResponse;
-
-    HomePresenter homePresenter ;
-
-    private IHomeModel taskCompleted;
-    private int newPage=1;
+    private static ArrayList<PeopleResults> peopleList;
+    private static HttpURLConnection httpURLConnection;
+    private static BufferedReader bufferedReader;
+    private static URL url;
+    private IHomeModel delegate = null; //Call back interface
 
     public HomeDataNetwork() {
         peopleList = new ArrayList<>();
@@ -40,66 +32,26 @@ public class HomeDataNetwork implements IHomeModel{
         searchUrl="https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query=";
     }
 
+    public String getDefaultURL(){
+        return defaultURL;
+    }
+
+    public String getSearchUrl(){
+        return searchUrl;
+    }
+
     @Override
     public JSONTask[] asyncSearch(String text){
         JSONTask[] jsonTasks={null};
-        jsonTasks[0]= (JSONTask) new JSONTask().execute(searchUrl+text);
+       // jsonTasks[0]= (JSONTask) new JSONTask().execute(searchUrl+text);
        return jsonTasks;
     }
 
-    @Override
-    public String sendResponse() {
-        return this.receivedResponse;
-    }
-
-    @Override
-    public void asyncOnLoadMore() {
-        int incrPage=returnIncrementedPage();
-        new JSONTask().execute(defaultURL+incrPage);
-    }
-
-    @Override
-    public void incrementPage(int page) {
-     page++;
-     newPage=page;
-    }
-
-    @Override
-    public int returnIncrementedPage() {
-        return newPage;
-    }
-
-    @Override
-    public void asyncPopularObject() {
-        new JSONTask().execute(defaultURL);
-    }
-
-    @Override
-    public void getRecyclerViewAndAdapter() {
-
-    }
-
-    @Override
-    public void getToastErrMsg(JSONException e) {
-
-    }
-
-    @Override
-    public Boolean onTaskCompleted(String response) {
-        return true;
-    }
-
-
-    // mvc
-//    public void asyncOnLoadMore(int page){
-//      0  new JSONTask().execute(defaultURL+page);
-//    }
-//
-//    public void asyncPopularObject(){
-//        new JSONTask().execute(defaultURL);
-//    }
-
-    public class JSONTask extends AsyncTask<String, String, String> {
+    public static class JSONTask extends AsyncTask<String, String, String> {
+        public AsyncResponse delegate = null;//Call back interface
+        public JSONTask(AsyncResponse asyncResponse) {
+            delegate = asyncResponse;//Assigning call back interface through constructor
+        }
         @Override
         protected void onPreExecute() {
             isLoading=true;
@@ -117,13 +69,12 @@ public class HomeDataNetwork implements IHomeModel{
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             isLoading=false;
-            getJsonData(result);
-//            taskCompleted.onTaskCompleted(result);
-
+            delegate.processFinish(getJsonData(result));
         }
     }
 
-    public void getJsonData(String result){
+
+    public static ArrayList<PeopleResults> getJsonData(String result){
         try {
 
             JSONObject peoplePojo = new JSONObject(result);
@@ -139,20 +90,15 @@ public class HomeDataNetwork implements IHomeModel{
                 peopleResults.setId(json_data.getInt("id"));
                 peopleList.add(peopleResults);
             }
-           // homePresenter.setList(peopleList);
             System.out.println("first element into peaopleList: "+peopleList.get(0));
-            returnListForRecyclerViewAndAdapter();
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-    @Override
-    public ArrayList<PeopleResults> returnListForRecyclerViewAndAdapter(){
-        return this.peopleList;
+        return peopleList;
     }
 
-    public String getHttpConnection(String urls){
+    public static String getHttpConnection(String urls){
         httpURLConnection = null;
         bufferedReader = null;
         try {

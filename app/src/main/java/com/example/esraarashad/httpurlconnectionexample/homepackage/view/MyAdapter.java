@@ -2,9 +2,6 @@ package com.example.esraarashad.httpurlconnectionexample.homepackage.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,32 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.view.DetailsActivity;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeController;
-import com.example.esraarashad.httpurlconnectionexample.homepackage.controller.HomeImageController;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
 import com.example.esraarashad.httpurlconnectionexample.R;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private ArrayList<PeopleResults> myPeoplePojo ;
     private Context context;
     private PeopleResults peopleResults;
-
-//    private URL imgUrl = null;
-//    private Bitmap bpImg = null;
-//    private InputStream inputStream=null;
-//    private HomeController homeController;
-
 
     // Provide a suitable constructor (depends on the kind of dataset)
     public MyAdapter(Context context,ArrayList<PeopleResults> myPeoplePojo) {
@@ -66,19 +49,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         if (myHolder.imageView != null){
             Glide.with(context).load("https://image.tmdb.org/t/p/w500/"+peopleResults.getProfile_path())
+                    .apply(new RequestOptions()
+                            .override(200,200))
                     .into(viewHolder.imageView);
         }else{
             Glide.with(context).load(R.drawable.ic_launcher_background).into(viewHolder.imageView);
         }
 
         Log.i("Adult",peopleResults.getAdult().toString());
-//        try {
-//            imageView.setImageBitmap(new AsyncTaskImage(imageView).execute("https://image.tmdb.org/t/p/w500/"+peopleResults.getProfile_path()).get());
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
         myHolder.bind (peopleResults);
     }
 
@@ -100,9 +78,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             this.nameTextView = (TextView) itemView.findViewById(R.id.name_text);
             this.adultTextView = (TextView) itemView.findViewById(R.id.adult_text);
             linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
-
-
         }
+
         private void bind(final PeopleResults peopleResults1){
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -113,53 +90,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                     intentToDetails.putExtra("id",peopleResults1.getId());
                     intentToDetails.putExtra("profile_path","https://image.tmdb.org/t/p/w500/"+peopleResults1.getProfile_path());
                     context.startActivity(intentToDetails);
-
                 }
             });
         }
     }
-
-//    public class AsyncTaskImage extends AsyncTask<String,Void, Bitmap>{
-//
-//        public AsyncTaskImage(ImageView imageView) {
-//        }
-//
-//        @Override
-//        protected Bitmap doInBackground(String... strings) {
-//            try {
-//                imgUrl = new URL(strings[0]);
-//                HttpURLConnection conn = (HttpURLConnection) imgUrl.openConnection();
-//                conn.setDoInput(true);
-//                conn.connect();
-//                inputStream = conn.getInputStream();
-//                bpImg = BitmapFactory.decodeStream(inputStream);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return bpImg;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Bitmap bitmap) {
-//            super.onPostExecute(bitmap);
-//            if (bitmap != null){
-//                imageView.setImageBitmap(bitmap);
-//            }else{
-//                imageView.setImageResource(R.drawable.ic_launcher_background);
-//            }
-//        }
-//    }
-//
-//    public ImageView sendImageView(){
-//        return imageView;
-//    }
-//
-//    public void settingImageResource(){
-//        imageView.setImageResource(R.drawable.ic_launcher_background);
-//    }
-//
-//    public PeopleResults myPeoplePojo(){
-//        return peopleResults;
-//    }
-
 }

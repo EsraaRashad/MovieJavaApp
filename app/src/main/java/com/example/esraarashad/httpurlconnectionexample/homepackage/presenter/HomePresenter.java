@@ -1,5 +1,6 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.presenter;
 
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.AsyncResponse;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.IHomeModel;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults;
@@ -11,42 +12,49 @@ public class HomePresenter {
     private IHomeModel model;
     private IHomeView view;
     private ArrayList<PeopleResults> list;
+    private AsyncResponse response;
 
     public HomePresenter(IHomeView view, IHomeModel model) {
         this.view = view;
         this.model=model;
     }
 
-//    public String  getResult(){
-//        String result=model.sendResponse();
-//       return result;
-//    }
-
-    public ArrayList<PeopleResults> getPeopleListFromModel(){
-
-        return model.returnListForRecyclerViewAndAdapter();
-    }
-
     public void updatePage(int page){
-        model.incrementPage(page);
+        page++;
+        asyncOnLoadMorePages(page);
     }
 
-    public void asyncOnLoadMorePages(){
-        model.asyncOnLoadMore();
+    public void asyncOnLoadMorePages(int page){
+        HomeDataNetwork.JSONTask callApi=new HomeDataNetwork.JSONTask(response=new AsyncResponse() {
+
+            @Override
+            public void processFinish(ArrayList<PeopleResults> outputList) {
+                view.setRecyclerViewAndAdapter(outputList);
+            }
+        });
+        callApi.execute(model.getDefaultURL()+page);
     }
+
     public void asyncPopular() {
-        model.asyncPopularObject();
-        model.returnListForRecyclerViewAndAdapter();
-        view.setRecyclerViewAndAdapter();
+        HomeDataNetwork.JSONTask callApi=new HomeDataNetwork.JSONTask(response=new AsyncResponse() {
+
+            @Override
+            public void processFinish(ArrayList<PeopleResults> outputList) {
+                view.setRecyclerViewAndAdapter(outputList);
+            }
+        });
+        callApi.execute(model.getDefaultURL());
     }
 
-    public void setList(ArrayList<PeopleResults> peopleList) {
-        list.addAll(peopleList);
+    public void asyncSearch(String text){
+        HomeDataNetwork.JSONTask callApi=new HomeDataNetwork.JSONTask(response=new AsyncResponse() {
+
+            @Override
+            public void processFinish(ArrayList<PeopleResults> outputList) {
+                view.setRecyclerViewAndAdapter(outputList);
+            }
+        });
+        callApi.execute(model.getSearchUrl()+text);
     }
-
-
-//    public void getRecyclerViewAndAdapter(){
-//        view.setRecyclerViewAndAdapter();
-//    }
 
 }

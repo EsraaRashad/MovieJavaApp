@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.esraarashad.httpurlconnectionexample.R;
 
 import java.io.IOException;
@@ -44,15 +46,14 @@ public class ImageDetailsActivity extends AppCompatActivity {
         if (intent != null){
             imageString = intent.getStringExtra("Image");
         }
-        try {
-            fullImageView.setImageBitmap(new AsyncImage(fullImageView).execute(imageString).get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (fullImageView != null){
+            Glide.with(this).load(imageString)
+                    .apply(new RequestOptions()
+                            .override(200,200))
+                    .into(fullImageView);
+        }else{
+            Glide.with(this).load(R.drawable.ic_launcher_background).into(fullImageView);
         }
-
-
 
     }
 
@@ -70,7 +71,7 @@ public class ImageDetailsActivity extends AppCompatActivity {
             //Permission for allowing downloading image
             if (ContextCompat.checkSelfPermission(ImageDetailsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_GRANTED) {
-//                      imageUploader5.setEnabled(true);
+
             }
             else {
                 ActivityCompat.requestPermissions(ImageDetailsActivity.this, new String[]
@@ -84,43 +85,11 @@ public class ImageDetailsActivity extends AppCompatActivity {
                     imageString,
                     "demo_image"
             );
-            //URI = Uri.parse(ImagePath);
 
             Toast.makeText(ImageDetailsActivity.this, "Image Saved Successfully", Toast.LENGTH_LONG).show();
 
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public class AsyncImage extends AsyncTask<String,Void, Bitmap> {
-
-        public AsyncImage(ImageView imageView) {
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            try {
-                imgUrl = new URL(strings[0]);
-                HttpURLConnection conn = (HttpURLConnection) imgUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                inputStream = conn.getInputStream();
-                bpImg = BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bpImg;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (bitmap != null){
-                fullImageView.setImageBitmap(bitmap);
-            }else{
-                fullImageView.setImageResource(R.drawable.ic_launcher_background);
-            }
-        }
     }
 }

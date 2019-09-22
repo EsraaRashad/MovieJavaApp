@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.DetailsNetwork;
+import com.example.esraarashad.httpurlconnectionexample.detailspackage.presenter.DetailsPresenter;
 import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.view.ImageDetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.Profiles;
@@ -32,7 +34,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements IViewDetails {
     private TextView nameText;
     private TextView adultText;
     private ImageView profileImage=null;
@@ -50,6 +52,7 @@ public class DetailsActivity extends AppCompatActivity {
     private ArrayList<Profiles> profilesList;
     private DetailsAdapter myAdapter;
     private RecyclerView mRecyclerView;
+    private DetailsPresenter detailsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class DetailsActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
         mGridLayoutManager = new GridLayoutManager(DetailsActivity.this, 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
-
+        detailsPresenter= new DetailsPresenter(this, new DetailsNetwork());
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +84,7 @@ public class DetailsActivity extends AppCompatActivity {
             id=intent.getIntExtra("id",1);
             nameText.setText(name);
             adultText.setText("For Adult :" +adult);
-
+            getId(id);
             try {
                 profileImage.setImageBitmap(new AsyncImage(profileImage).execute(path).get());
             } catch (ExecutionException e) {
@@ -93,8 +96,11 @@ public class DetailsActivity extends AppCompatActivity {
         new JSONDetailsTask().execute("https://api.themoviedb.org/3/person/"+id+"/images?api_key=fba1791e7e4fb5ada6afc4d9e80550a0");
 
 
+    }
 
-
+    @Override
+    public void getId(int id) {
+        detailsPresenter.setId(id);
     }
 
     //this class to get the file_path from API

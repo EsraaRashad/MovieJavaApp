@@ -59,16 +59,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        detailsViewHolder.
-//                imgDetail.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent mIntent = new Intent(mContext, ImageDetailsActivity.class);
-//                int pos =detailsViewHolder.getAdapterPosition();
-//                mIntent.putExtra("Image", profilesArrayList.get(pos).toString());
-//                mContext.startActivity(mIntent);
-//            }
-//        });
+
         myDetailHolder.bind(profilesObject);
     }
 

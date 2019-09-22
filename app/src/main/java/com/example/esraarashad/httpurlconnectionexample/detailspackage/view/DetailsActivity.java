@@ -61,8 +61,7 @@ public class DetailsActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.recycler_view);
         mGridLayoutManager = new GridLayoutManager(DetailsActivity.this, 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
-//        myAdapter = new DetailsAdapter(DetailsActivity.this, profilesList);
-//        mRecyclerView.setAdapter(myAdapter);
+
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

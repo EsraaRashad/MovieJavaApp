@@ -40,19 +40,11 @@ import java.util.concurrent.ExecutionException;
 public class DetailsActivity extends AppCompatActivity implements IViewDetails {
     private TextView nameText;
     private TextView adultText;
-    private ImageView profileImage=null;
-    private URL imgUrl = null;
-    private Bitmap bpImg = null;
-    private InputStream inputStream=null;
-    private HttpURLConnection httpURLConnection;
-    private BufferedReader bufferedReader;
-    private URL url;
-    private ProgressBar progressBar;
+    private ImageView profileImage;
     private GridLayoutManager mGridLayoutManager;
     String path= "";
     int id;
     // we will place the list of data here
-    private ArrayList<Profiles> profilesList;
     private DetailsAdapter myAdapter;
     private RecyclerView mRecyclerView;
     private DetailsPresenter detailsPresenter;

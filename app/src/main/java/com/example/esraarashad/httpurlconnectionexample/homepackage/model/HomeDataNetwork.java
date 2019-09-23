@@ -99,8 +99,8 @@ public class HomeDataNetwork implements IHomeModel{
     }
 
     public static String getHttpConnection(String urls){
-        httpURLConnection = null;
-        bufferedReader = null;
+//        httpURLConnection = null;
+//        bufferedReader = null;
         try {
 
             url = new URL(urls);

@@ -114,7 +114,6 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                         getPeopleResultsList().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncSearch(newText);
-                       // jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
                         }
 
                     else{
@@ -123,7 +122,6 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                         getPeopleResultsList().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncSearch(newText);
-                        //jsonTask[0] = (JSONTask) new JSONTask().execute("https://api.themoviedb.org/3/search/person?api_key=fba1791e7e4fb5ada6afc4d9e80550a0&query="+newText);
                     }
                 } else {
                     //currentPage = 1
@@ -131,14 +129,12 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                         getPeopleResultsList().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
-                       // jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
                     }
                     else {
                         isLoading = false;
                         getPeopleResultsList().clear();
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
-                        //jsonTask[0] = (JSONTask) new JSONTask().execute(defaultURL);
                     }
                 }
                 return false;

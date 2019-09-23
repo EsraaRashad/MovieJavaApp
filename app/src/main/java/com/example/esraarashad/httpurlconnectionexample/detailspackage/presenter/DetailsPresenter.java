@@ -26,4 +26,6 @@ public class DetailsPresenter {
     public int getId() {
         return id;
     }
+
+    public void asyncProfiles(){}
 }

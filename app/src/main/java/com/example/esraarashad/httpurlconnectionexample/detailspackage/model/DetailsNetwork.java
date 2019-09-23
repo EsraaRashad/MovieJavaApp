@@ -23,14 +23,14 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class DetailsNetwork implements IModelDetails {
-    private HttpURLConnection httpURLConnection;
-    private BufferedReader bufferedReader;
-    private URL url;
+    private static HttpURLConnection httpURLConnection;
+    private static BufferedReader bufferedReader;
+    private static URL url;
     // we will place the list of data here
-    private ArrayList<Profiles> profilesList;
+    private static ArrayList<Profiles> profilesList;
 
     //this class to get the file_path from API
-    public class JSONDetailsTask extends AsyncTask<String, String, String> {
+    public static class JSONDetailsTask extends AsyncTask<String, String, String> {
         private ApiResponse apiResponseDelegate;
         public JSONDetailsTask(ApiResponse apiResponse) {
             this.apiResponseDelegate=apiResponse;
@@ -94,9 +94,6 @@ public class DetailsNetwork implements IModelDetails {
                     profilesList.add(peopleProfile);
                 }
                 apiResponseDelegate.onProcessFinished(profilesList);
-//                myAdapter= new DetailsAdapter( DetailsActivity.this,profilesList);
-//                mRecyclerView.setAdapter(myAdapter);
-//                myAdapter.notifyDataSetChanged();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

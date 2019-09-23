@@ -19,6 +19,7 @@ import com.example.esraarashad.httpurlconnectionexample.detailspackage.presenter
 import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.view.ImageDetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.Profiles;
+import com.example.esraarashad.httpurlconnectionexample.homepackage.view.MyAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -152,7 +153,6 @@ public class DetailsActivity extends AppCompatActivity implements IViewDetails {
             super.onPostExecute(result);
             profilesList = new ArrayList<>();
             try {
-
                 JSONObject profileObject = new JSONObject(result);
                 JSONArray jArray = profileObject.getJSONArray("profiles");
 
@@ -163,12 +163,7 @@ public class DetailsActivity extends AppCompatActivity implements IViewDetails {
                     peopleProfile.setFile_path(json_data.getString("file_path"));
                     profilesList.add(peopleProfile);
                 }
-
-                myAdapter= new DetailsAdapter( DetailsActivity.this,profilesList);
-
-                mRecyclerView.setAdapter(myAdapter);
-                myAdapter.notifyDataSetChanged();
-//                progressBar.setVisibility(View.GONE);
+               // setmRecyclerViewAndmyAdapter(profilesList);
 
             } catch (JSONException e) {
                 Toast.makeText(DetailsActivity.this, e.toString(), Toast.LENGTH_LONG).show();
@@ -207,5 +202,16 @@ public class DetailsActivity extends AppCompatActivity implements IViewDetails {
         }
     }
 
+    @Override
+    public void setmRecyclerViewAndmyAdapter(ArrayList<Profiles> profilesList){
+        myAdapter= new DetailsAdapter( DetailsActivity.this,profilesList);
+        mRecyclerView.setAdapter(myAdapter);
+        notifyChangesInAdapter(myAdapter);
+    }
+
+    @Override
+    public void notifyChangesInAdapter(DetailsAdapter adapter) {
+        adapter.notifyDataSetChanged();
+    }
 }
 

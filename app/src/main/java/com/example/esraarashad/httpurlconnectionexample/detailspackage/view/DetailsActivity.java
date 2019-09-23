@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.DetailsNetwork;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.presenter.DetailsPresenter;
 import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.view.ImageDetailsActivity;
@@ -86,17 +88,16 @@ public class DetailsActivity extends AppCompatActivity implements IViewDetails {
             nameText.setText(name);
             adultText.setText("For Adult :" +adult);
             getId(id);
-            try {
-                profileImage.setImageBitmap(new AsyncImage(profileImage).execute(path).get());
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if (profileImage != null){
+                Glide.with(this).load(path)
+                        .apply(new RequestOptions()
+                                .override(200,200))
+                        .into(profileImage);
+            }else{
+                Glide.with(this).load(R.drawable.ic_launcher_background).into(profileImage);
             }
         }
-        new JSONDetailsTask().execute("https://api.themoviedb.org/3/person/"+id+"/images?api_key=fba1791e7e4fb5ada6afc4d9e80550a0");
-
-
+        detailsPresenter.asyncProfiles();
     }
 
     @Override
@@ -104,103 +105,6 @@ public class DetailsActivity extends AppCompatActivity implements IViewDetails {
         detailsPresenter.setId(id);
     }
 
-    //this class to get the file_path from API
-    public class JSONDetailsTask extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... urls) {
-
-            httpURLConnection = null;
-            bufferedReader = null;
-            try {
-                url = new URL(urls[0]);
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.connect();
-                InputStream inputStream = httpURLConnection.getInputStream();
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder stringBuilder=new StringBuilder();
-                String line = "";
-
-                //while loop to append data:
-                while ((line = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(line);
-                }
-                return (stringBuilder.toString());
-
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                // here we will close the bufferedReader and the httpURLConnection
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
-
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            profilesList = new ArrayList<>();
-            try {
-                JSONObject profileObject = new JSONObject(result);
-                JSONArray jArray = profileObject.getJSONArray("profiles");
-
-                // Extract data from json and store into ArrayList as class objects
-                for (int i = 0; i < jArray.length(); i++) {
-                    JSONObject json_data = jArray.getJSONObject(i);
-                    Profiles peopleProfile=new Profiles();
-                    peopleProfile.setFile_path(json_data.getString("file_path"));
-                    profilesList.add(peopleProfile);
-                }
-               // setmRecyclerViewAndmyAdapter(profilesList);
-
-            } catch (JSONException e) {
-                Toast.makeText(DetailsActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-            }
-
-        }
-    }
-    public class AsyncImage extends AsyncTask<String,Void, Bitmap> {
-
-        public AsyncImage(ImageView imageView) {
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            try {
-                imgUrl = new URL(strings[0]);
-                HttpURLConnection conn = (HttpURLConnection) imgUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                inputStream = conn.getInputStream();
-                bpImg = BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bpImg;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (bitmap != null){
-                profileImage.setImageBitmap(bitmap);
-            }else{
-                profileImage.setImageResource(R.drawable.ic_launcher_background);
-            }
-        }
-    }
 
     @Override
     public void setmRecyclerViewAndmyAdapter(ArrayList<Profiles> profilesList){

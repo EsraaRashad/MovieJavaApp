@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.view.ImageDetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.Profiles;
@@ -28,10 +30,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
     private Context mContext;
     private ArrayList<Profiles> profilesArrayList;
     private Profiles profilesObject;
-    ImageView imgDetail=null;
-    URL imgUrl = null;
-    Bitmap bpImg = null;
-    InputStream inputStream=null;
 
     public DetailsAdapter(Context mContext , ArrayList<Profiles> profilesList) {
         this.mContext = mContext;
@@ -51,15 +49,14 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
     public void onBindViewHolder(@NonNull final DetailsViewHolder detailsViewHolder, int i) {
         DetailsViewHolder myDetailHolder  = detailsViewHolder;
         profilesObject=profilesArrayList.get(i);
-       // detailsViewHolder.imgDetail.setImageResource(mPlaceList[i]);
-        try {
-            imgDetail.setImageBitmap(new AsyncTaskImage(imgDetail).execute("https://image.tmdb.org/t/p/w500/"+profilesObject.getFile_path()).get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (detailsViewHolder.imgDetail != null){
+            Glide.with(mContext).load("https://image.tmdb.org/t/p/w500/"+profilesObject.getFile_path())
+                    .apply(new RequestOptions()
+                            .override(200,200))
+                    .into(detailsViewHolder.imgDetail);
+        }else{
+            Glide.with(mContext).load(R.drawable.ic_launcher_background).into(detailsViewHolder.imgDetail);
         }
-
         myDetailHolder.bind(profilesObject);
     }
 
@@ -70,6 +67,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
 
     public class DetailsViewHolder extends RecyclerView.ViewHolder{
         public LinearLayout gridLinearLayout;
+        public ImageView imgDetail;
 
         public DetailsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,37 +84,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
 
                 }
             });
-        }
-    }
-
-    public class AsyncTaskImage extends AsyncTask<String,Void, Bitmap> {
-
-        public AsyncTaskImage(ImageView imageView) {
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            try {
-                imgUrl = new URL(strings[0]);
-                HttpURLConnection conn = (HttpURLConnection) imgUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                inputStream = conn.getInputStream();
-                bpImg = BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bpImg;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (bitmap != null){
-                imgDetail.setImageBitmap(bitmap);
-            }else{
-                imgDetail.setImageResource(R.drawable.ic_launcher_background);
-            }
         }
     }
 }

@@ -1,0 +1,3 @@
+package com.example.esraarashad.httpurlconnectionexample.fullimagepackage.presenter
+
+class FullImagePresenter

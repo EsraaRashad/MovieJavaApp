@@ -9,4 +9,5 @@ public interface IViewDetails {
     void getId(int id);
     void setmRecyclerViewAndmyAdapter(ArrayList<Profiles> profilesList);
     void notifyChangesInAdapter(DetailsAdapter adapter);
+    void asyncProfiles();
 }

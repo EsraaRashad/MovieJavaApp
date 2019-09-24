@@ -28,8 +28,8 @@ public class DetailsActivity extends AppCompatActivity implements IViewDetails {
     private TextView adultText;
     private ImageView profileImage;
     private GridLayoutManager mGridLayoutManager;
-    String path= "";
-    int id;
+    private String path= "";
+    private int id;
     // we will place the list of data here
     private DetailsAdapter myAdapter;
     private RecyclerView mRecyclerView;
@@ -69,13 +69,13 @@ public class DetailsActivity extends AppCompatActivity implements IViewDetails {
             if (profileImage != null){
                 Glide.with(this).load(path)
                         .apply(new RequestOptions()
-                                .override(200,200))
+                                .override(400,400))
                         .into(profileImage);
             }else{
                 Glide.with(this).load(R.drawable.ic_launcher_background).into(profileImage);
             }
         }
-        detailsPresenter.asyncProfiles();
+        asyncProfiles();
     }
 
     @Override
@@ -94,6 +94,11 @@ public class DetailsActivity extends AppCompatActivity implements IViewDetails {
     @Override
     public void notifyChangesInAdapter(DetailsAdapter adapter) {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void asyncProfiles() {
+        detailsPresenter.asyncProfiles();
     }
 }
 

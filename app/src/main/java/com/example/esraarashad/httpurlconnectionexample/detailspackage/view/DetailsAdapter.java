@@ -52,7 +52,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         if (detailsViewHolder.imgDetail != null){
             Glide.with(mContext).load("https://image.tmdb.org/t/p/w500/"+profilesObject.getFile_path())
                     .apply(new RequestOptions()
-                            .override(200,200))
+                            .override(500,500))
                     .into(detailsViewHolder.imgDetail);
         }else{
             Glide.with(mContext).load(R.drawable.ic_launcher_background).into(detailsViewHolder.imgDetail);

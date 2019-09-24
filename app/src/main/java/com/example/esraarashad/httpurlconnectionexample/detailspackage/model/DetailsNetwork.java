@@ -25,10 +25,25 @@ public class DetailsNetwork implements IModelDetails {
     private static HttpURLConnection httpURLConnection;
     private static BufferedReader bufferedReader;
     private static URL url;
+    private String defaultImagesUrl;
+    private String imagesApiKeyUrl;
 
     public DetailsNetwork() {
         profilesList=new ArrayList<>();
+        defaultImagesUrl="https://api.themoviedb.org/3/person/";
+        imagesApiKeyUrl="/images?api_key=fba1791e7e4fb5ada6afc4d9e80550a0";
     }
+
+    @Override
+    public String getDefaultImagesUrl() {
+        return defaultImagesUrl;
+    }
+
+    @Override
+    public String getImagesApiKeyUrl() {
+        return imagesApiKeyUrl;
+    }
+
 
     //this class to get the file_path from API
     public static class JSONDetailsTask extends AsyncTask<String, String, String> {

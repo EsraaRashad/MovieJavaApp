@@ -40,12 +40,12 @@ public class HomeDataNetwork implements IHomeModel{
         return searchUrl;
     }
 
-    @Override
-    public JSONTask[] asyncSearch(String text){
-        JSONTask[] jsonTasks={null};
-       // jsonTasks[0]= (JSONTask) new JSONTask().execute(searchUrl+text);
-       return jsonTasks;
-    }
+//    @Override
+//    public JSONTask[] asyncSearch(String text){
+//        JSONTask[] jsonTasks={null};
+//       // jsonTasks[0]= (JSONTask) new JSONTask().execute(searchUrl+text);
+//       return jsonTasks;
+//    }
 
     public static class JSONTask extends AsyncTask<String, String, String> {
         public AsyncResponse delegate = null;//Call back interface

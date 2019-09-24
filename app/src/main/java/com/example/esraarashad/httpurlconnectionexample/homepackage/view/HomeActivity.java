@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -133,6 +134,7 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
                     else {
                         isLoading = false;
                         getPeopleResultsList().clear();
+                        Log.i("list",getPeopleResultsList().size()+"");
                         mAdapter.notifyDataSetChanged();
                         getAsyncPopularObj();
                     }
@@ -163,6 +165,11 @@ public class HomeActivity extends AppCompatActivity implements IHomeView {
 
     public void setToastErrMsg(JSONException e){
         Toast.makeText(HomeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void sendSearchedText(String text) {
+
     }
 
     public void setRecyclerViewAndAdapter(ArrayList<PeopleResults> list){

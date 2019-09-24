@@ -1,5 +1,7 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.presenter;
 
+import android.util.Log;
+
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.AsyncResponse;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork;
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.IHomeModel;
@@ -22,6 +24,13 @@ public class HomePresenter {
     public void updatePage(int page){
         page++;
         asyncOnLoadMorePages(page);
+    }
+    public void settingText(String text){
+        view.sendSearchedText(text);
+    }
+
+    public String gettingText(){
+        return "";
     }
 
     public void asyncOnLoadMorePages(int page){
@@ -47,6 +56,7 @@ public class HomePresenter {
     }
 
     public void asyncSearch(String text){
+        Log.i("newText",text);
         HomeDataNetwork.JSONTask callApi=new HomeDataNetwork.JSONTask(response=new AsyncResponse() {
 
             @Override

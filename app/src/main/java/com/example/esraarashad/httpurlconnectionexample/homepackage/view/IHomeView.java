@@ -14,4 +14,5 @@ public interface IHomeView {
     // void getOnLoadMoreData(int pageNum);
      void setRecyclerViewAndAdapter(ArrayList<PeopleResults> list);
      void setToastErrMsg(JSONException e);
+     void sendSearchedText(String text);
 }

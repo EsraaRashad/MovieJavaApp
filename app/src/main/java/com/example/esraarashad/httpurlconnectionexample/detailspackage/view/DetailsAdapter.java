@@ -2,9 +2,6 @@ package com.example.esraarashad.httpurlconnectionexample.detailspackage.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,13 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.view.ImageDetailsActivity;
 import com.example.esraarashad.httpurlconnectionexample.R;
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.Profiles;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsViewHolder>{
     private Context mContext;

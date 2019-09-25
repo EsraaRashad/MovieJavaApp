@@ -15,5 +15,5 @@ interface IHomeView {
     fun setRecyclerViewAndAdapter(list: ArrayList<PeopleResults>)
 
     fun setToastErrMsg(e: JSONException)
-    fun sendSearchedText(text: String)
+
 }

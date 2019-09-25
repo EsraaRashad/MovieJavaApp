@@ -68,7 +68,6 @@ class HomeActivity : AppCompatActivity(), IHomeView {
 
             }
         })
-
         // implement setOnRefreshListener event on SwipeRefreshLayout
         swipeRefreshLayout!!.setOnRefreshListener {
             // implement Handler to wait for 3 seconds and then update UI means update value of TextView
@@ -76,7 +75,8 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                 // cancle the Visual indication of a refresh
                 // clear the list
                 peopleResultsList!!.clear()
-                mAdapter!!.notifyDataSetChanged()
+//                mAdapter!!.notifyDataSetChanged()
+                notifyChangesInAdapter(mAdapter!!)
                 getAsyncPopularObj()
                 swipeRefreshLayout!!.isRefreshing = false
             }, 3000)
@@ -101,27 +101,33 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                 if (!newText.isEmpty()) {
                     if (!(isLoading)!!) {
                         //Clear then make a request for search
+                        Log.i("PeopleResultsList :",peopleResultsList!!.size.toString()+"")
                         peopleResultsList!!.clear()
-                        mAdapter!!.notifyDataSetChanged()
+                        Log.i("PeopleList cleared :",peopleResultsList!!.size.toString()+"")
+//                        mAdapter!!.notifyDataSetChanged()
+                        notifyChangesInAdapter(mAdapter!!)
                         getAsyncSearch(newText)
                     } else {
                         //Cancel the current async task and request the new one
                         isLoading = false
                         peopleResultsList!!.clear()
-                        mAdapter!!.notifyDataSetChanged()
+//                        mAdapter!!.notifyDataSetChanged()
+                        notifyChangesInAdapter(mAdapter!!)
                         getAsyncSearch(newText)
                     }
                 } else {
                     //currentPage = 1
                     if (!(isLoading)!!) {
                         peopleResultsList!!.clear()
-                        mAdapter!!.notifyDataSetChanged()
+//                        mAdapter!!.notifyDataSetChanged()
+                        notifyChangesInAdapter(mAdapter!!)
                         getAsyncPopularObj()
                     } else {
                         isLoading = false
                         peopleResultsList!!.clear()
                         Log.i("list", peopleResultsList!!.size.toString() + "")
-                        mAdapter!!.notifyDataSetChanged()
+//                        mAdapter!!.notifyDataSetChanged()
+                        notifyChangesInAdapter(mAdapter!!)
                         getAsyncPopularObj()
                     }
                 }
@@ -136,7 +142,8 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                 mSearchView.clearFocus()
                 //currentPage = 1
                 peopleResultsList!!.clear()
-                mAdapter!!.notifyDataSetChanged()
+                //mAdapter!!.notifyDataSetChanged()
+                notifyChangesInAdapter(mAdapter!!)
                 getAsyncPopularObj()
             } else
                 mSearchView.onActionViewCollapsed()
@@ -144,18 +151,13 @@ class HomeActivity : AppCompatActivity(), IHomeView {
         return super.onCreateOptionsMenu(menu)
     }
 
-
     override fun setToastErrMsg(e: JSONException) {
         Toast.makeText(this@HomeActivity, e.toString(), Toast.LENGTH_LONG).show()
     }
 
-    override fun sendSearchedText(text: String) {
-
-    }
-
     override fun setRecyclerViewAndAdapter(list: ArrayList<PeopleResults>) {
         peopleResultsList!!.addAll(list)
-        mAdapter = MyAdapter(this@HomeActivity, list)
+        mAdapter = MyAdapter(this@HomeActivity, peopleResultsList!!)
         recyclerView!!.adapter = mAdapter
         recyclerView!!.layoutManager = layoutManager
         recyclerView!!.setHasFixedSize(true)

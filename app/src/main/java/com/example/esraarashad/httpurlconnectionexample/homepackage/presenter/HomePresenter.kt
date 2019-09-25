@@ -20,10 +20,6 @@ class HomePresenter(private val view: IHomeView, private val model: IHomeModel) 
         asyncOnLoadMorePages(page)
     }
 
-    fun settingText(text: String) {
-        view.sendSearchedText(text)
-    }
-
     fun gettingText(): String {
         return ""
     }

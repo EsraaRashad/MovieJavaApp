@@ -10,7 +10,7 @@ import com.example.esraarashad.httpurlconnectionexample.homepackage.view.IHomeVi
 
 import java.util.ArrayList
 
-class HomePresenter(private val view: IHomeView, private val model: IHomeModel) {
+open class HomePresenter(private val view: IHomeView, private val model: IHomeModel) {
     private var list: ArrayList<PeopleResults>? = null
 
     init {

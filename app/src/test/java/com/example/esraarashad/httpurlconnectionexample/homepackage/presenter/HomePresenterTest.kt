@@ -4,12 +4,13 @@ import com.example.esraarashad.httpurlconnectionexample.homepackage.model.IHomeM
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
 import com.example.esraarashad.httpurlconnectionexample.homepackage.view.IHomeView
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
 import org.junit.Assert.*
+import com.nhaarman.mockito_kotlin.*;
 import org.mockito.Mock
-import org.mockito.Mockito.*;
 import org.mockito.MockitoAnnotations
 
 class HomePresenterTest {
@@ -24,8 +25,8 @@ class HomePresenterTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter = HomePresenter(iHomeView,iHomeModel)
-        list= ArrayList<PeopleResults>()
+        presenter = spy(HomePresenter(iHomeView,iHomeModel))
+        list= ArrayList()
     }
 
     @After
@@ -34,7 +35,8 @@ class HomePresenterTest {
 
     @Test
     fun asyncPopular() {
-        presenter.asyncPopular()
-        verify(iHomeView).setRecyclerViewAndAdapter(list)
+        val page : Int  = 1
+        presenter.updatePage(page)
+        verify(presenter).asyncOnLoadMorePages(eq(page))
     }
 }

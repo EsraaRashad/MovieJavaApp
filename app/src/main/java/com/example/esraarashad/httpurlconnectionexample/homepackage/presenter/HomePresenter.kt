@@ -3,7 +3,7 @@ package com.example.esraarashad.httpurlconnectionexample.homepackage.presenter
 import android.util.Log
 
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.AsyncResponse
-import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeModel
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.IHomeModel
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
 import com.example.esraarashad.httpurlconnectionexample.homepackage.view.IHomeView
@@ -11,45 +11,42 @@ import com.example.esraarashad.httpurlconnectionexample.homepackage.view.IHomeVi
 import java.util.ArrayList
 
 class HomePresenter(private val view: IHomeView, private val model: IHomeModel) {
-    private val list: ArrayList<PeopleResults>? = null
-//     var response: AsyncResponse? = null
+    private var list: ArrayList<PeopleResults>? = null
 
+    init {
+        list = ArrayList<PeopleResults>()
+    }
     fun updatePage(page: Int) {
         var page = page
         page++
         asyncOnLoadMorePages(page)
     }
 
-    fun gettingText(): String {
-        return ""
-    }
-
     fun asyncOnLoadMorePages(page: Int) {
-        val callApi = HomeDataNetwork.JSONTask(object : AsyncResponse {
-            override fun processFinish(outputList: ArrayList<PeopleResults>) {
-                view.setRecyclerViewAndAdapter(outputList)
+        model.asyncOnLoadMorePages(page){
+            list!!.addAll(it)
+            if (list != null) {
+                view.setRecyclerViewAndAdapter(list!!)
             }
-        })
-        callApi.execute(model.defaultURL + page)
+        }
     }
 
     fun asyncPopular() {
-        val callApi = HomeDataNetwork.JSONTask(object : AsyncResponse {
-            override fun processFinish(outputList: ArrayList<PeopleResults>) {
-                view.setRecyclerViewAndAdapter(outputList)
-            }
-        })
-        callApi.execute(model.defaultURL)
+       model.asyncPopularModel {
+               list!!.addAll(it)
+               if (list != null) {
+                   view.setRecyclerViewAndAdapter(list!!)
+               }
+       }
     }
 
     fun asyncSearch(text: String) {
-        Log.i("newText", text)
-        val callApi = HomeDataNetwork.JSONTask(object : AsyncResponse {
-            override fun processFinish(outputList: ArrayList<PeopleResults>) {
-                view.setRecyclerViewAndAdapter(outputList)
+        model.asyncSearchModel(text){
+            list!!.addAll(it)
+            if (list != null) {
+                view.setRecyclerViewAndAdapter(list!!)
             }
-        })
-        callApi.execute(model.searchUrl + text)
+        }
     }
 
 }

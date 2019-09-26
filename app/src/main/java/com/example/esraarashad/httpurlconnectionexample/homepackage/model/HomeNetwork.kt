@@ -43,15 +43,15 @@ class HomeNetwork(asyncResponse: AsyncResponse) : AsyncTask<String, String, Stri
     }
 
     fun requestURL(defaultURL: String) {
-        this.execute(defaultURL)
+        HomeNetwork(delegate!!).execute(defaultURL)
     }
 
     fun requestSearchUrl(searchURL: String ,text:String){
-        this.execute(searchURL+text)
+        HomeNetwork(delegate!!).execute(searchURL+text)
     }
 
     fun requestLoadMore(defaultURL: String, page: Int){
-        this.execute(defaultURL+page)
+        HomeNetwork(delegate!!).execute(defaultURL+page)
     }
 
     fun getJsonData(result: String): ArrayList<PeopleResults> {

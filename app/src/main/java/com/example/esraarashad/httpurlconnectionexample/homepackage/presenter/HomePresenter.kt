@@ -23,6 +23,12 @@ class HomePresenter(private val view: IHomeView, private val model: IHomeModel) 
     }
 
     fun asyncOnLoadMorePages(page: Int) {
+        model.asyncOnLoadMorePages(page){
+            list!!.addAll(it)
+            if (list != null) {
+                view.setRecyclerViewAndAdapter(list!!)
+            }
+        }
     }
 
     fun asyncPopular() {
@@ -35,6 +41,12 @@ class HomePresenter(private val view: IHomeView, private val model: IHomeModel) 
     }
 
     fun asyncSearch(text: String) {
+        model.asyncSearchModel(text){
+            list!!.addAll(it)
+            if (list != null) {
+                view.setRecyclerViewAndAdapter(list!!)
+            }
+        }
     }
 
 }

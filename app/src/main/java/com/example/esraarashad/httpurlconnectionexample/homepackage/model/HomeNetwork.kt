@@ -1,7 +1,6 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.model
 
 import android.os.AsyncTask
-import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.DetailsNetwork.Companion.getHttpConnection
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
 import org.json.JSONException
 import org.json.JSONObject
@@ -21,7 +20,6 @@ class HomeNetwork(asyncResponse: AsyncResponse) : AsyncTask<String, String, Stri
     private var httpURLConnection: HttpURLConnection? = null
     private var bufferedReader: BufferedReader? = null
     private var url: URL? = null
-
 
     init {
         delegate = asyncResponse//Assigning call back interface through constructor
@@ -74,8 +72,6 @@ class HomeNetwork(asyncResponse: AsyncResponse) : AsyncTask<String, String, Stri
     }
 
     fun getHttpConnection(urls: String): String? {
-        //        httpURLConnection = null;
-        //        bufferedReader = null;
         try {
 
             url = URL(urls)

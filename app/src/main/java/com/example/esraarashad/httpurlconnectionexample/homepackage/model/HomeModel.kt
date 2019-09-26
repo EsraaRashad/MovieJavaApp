@@ -14,11 +14,12 @@ import java.net.URL
 import java.util.ArrayList
 
 class HomeModel : IHomeModel ,AsyncResponse{
-    private lateinit var peopleList: ArrayList<PeopleResults>
+    private  var peopleList: ArrayList<PeopleResults>
     override val defaultURL: String
     override val searchUrl: String
     var homeNetwork :HomeNetwork? = null
     var caller : ( (ArrayList<PeopleResults>)->Unit )? = null
+
     init {
         homeNetwork = HomeNetwork(this)
         peopleList = ArrayList()
@@ -35,12 +36,6 @@ class HomeModel : IHomeModel ,AsyncResponse{
     override fun asyncPopularModel(callback: (ArrayList<PeopleResults>)->Unit) {
         homeNetwork?.requestURL(defaultURL)
         caller = callback
-//        val callApi = HomeNetwork(object : AsyncResponse {
-//            override fun processFinish(outputList: ArrayList<PeopleResults>) {
-//
-//            }
-//        })
-//        callApi.execute(defaultURL)
     }
 
     override fun asyncSearchModel(text: String) {

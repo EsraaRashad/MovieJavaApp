@@ -12,7 +12,6 @@ import java.util.ArrayList
 
 class HomePresenter(private val view: IHomeView, private val model: IHomeModel) {
     private var list: ArrayList<PeopleResults>? = null
-//     var response: AsyncResponse? = null
 
     init {
         list = ArrayList<PeopleResults>()
@@ -22,18 +21,8 @@ class HomePresenter(private val view: IHomeView, private val model: IHomeModel) 
         page++
         asyncOnLoadMorePages(page)
     }
-
-    fun gettingText(): String {
-        return ""
-    }
-
+    
     fun asyncOnLoadMorePages(page: Int) {
-//        val callApi = HomeModel.JSONTask(object : AsyncResponse {
-//            override fun processFinish(outputList: ArrayList<PeopleResults>) {
-//                view.setRecyclerViewAndAdapter(outputList)
-//            }
-//        })
-//        callApi.execute(model.defaultURL + page)
     }
 
     fun asyncPopular() {
@@ -46,13 +35,6 @@ class HomePresenter(private val view: IHomeView, private val model: IHomeModel) 
     }
 
     fun asyncSearch(text: String) {
-//        Log.i("newText", text)
-//        val callApi = HomeModel.JSONTask(object : AsyncResponse {
-//            override fun processFinish(outputList: ArrayList<PeopleResults>) {
-//                view.setRecyclerViewAndAdapter(outputList)
-//            }
-//        })
-//        callApi.execute(model.searchUrl + text)
     }
 
 }

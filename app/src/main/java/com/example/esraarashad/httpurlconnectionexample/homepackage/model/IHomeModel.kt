@@ -8,6 +8,6 @@ interface IHomeModel {
     val defaultURL: String
     val searchUrl: String
     fun asyncPopularModel(callback: (ArrayList<PeopleResults>)->Unit)
-    fun asyncSearchModel(text: String)
-    fun asyncOnLoadMorePages(page: Int)
+    fun asyncSearchModel(text: String ,callback: (ArrayList<PeopleResults>)->Unit)
+    fun asyncOnLoadMorePages(page: Int ,callback: (ArrayList<PeopleResults>)->Unit)
 }

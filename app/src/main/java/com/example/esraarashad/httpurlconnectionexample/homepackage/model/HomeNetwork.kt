@@ -23,7 +23,7 @@ class HomeNetwork(asyncResponse: AsyncResponse) : AsyncTask<String, String, Stri
 
     init {
         delegate = asyncResponse//Assigning call back interface through constructor
-        peopleList=ArrayList()
+        peopleList= ArrayList()
     }
 
     override fun onPreExecute() {
@@ -44,6 +44,14 @@ class HomeNetwork(asyncResponse: AsyncResponse) : AsyncTask<String, String, Stri
 
     fun requestURL(defaultURL: String) {
         this.execute(defaultURL)
+    }
+
+    fun requestSearchUrl(searchURL: String ,text:String){
+        this.execute(searchURL+text)
+    }
+
+    fun requestLoadMore(defaultURL: String, page: Int){
+        this.execute(defaultURL+page)
     }
 
     fun getJsonData(result: String): ArrayList<PeopleResults> {

@@ -1,16 +1,6 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.model
 
-import android.os.AsyncTask
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
-import org.json.JSONException
-import org.json.JSONObject
-
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.MalformedURLException
-import java.net.URL
 import java.util.ArrayList
 
 class HomeModel : IHomeModel ,AsyncResponse{
@@ -32,20 +22,19 @@ class HomeModel : IHomeModel ,AsyncResponse{
         caller!!(peopleList)
     }
 
-
     override fun asyncPopularModel(callback: (ArrayList<PeopleResults>)->Unit) {
         homeNetwork?.requestURL(defaultURL)
         caller = callback
     }
 
-    override fun asyncSearchModel(text: String) {
+    override fun asyncSearchModel(text: String ,callback: (ArrayList<PeopleResults>)->Unit) {
+        homeNetwork?.requestSearchUrl(searchUrl,text)
+        caller = callback
     }
 
-    override fun asyncOnLoadMorePages(page: Int) {
+    override fun asyncOnLoadMorePages(page: Int ,callback: (ArrayList<PeopleResults>)->Unit) {
+        homeNetwork?.requestLoadMore(defaultURL,page)
+        caller = callback
     }
-
-
-
-
 
 }

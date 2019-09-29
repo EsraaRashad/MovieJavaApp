@@ -1,9 +1,5 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.presenter
 
-import android.util.Log
-
-import com.example.esraarashad.httpurlconnectionexample.homepackage.model.AsyncResponse
-import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeModel
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.IHomeModel
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
 import com.example.esraarashad.httpurlconnectionexample.homepackage.view.IHomeView

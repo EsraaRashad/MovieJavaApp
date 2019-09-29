@@ -51,7 +51,7 @@ class DetailsAdapter(private val mContext: Context, private val profilesArrayLis
             gridLinearLayout = itemView.findViewById(R.id.gridLinearLayout)
         }
 
-        public fun bind(profileResult: Profiles) {
+         fun bind(profileResult: Profiles) {
             itemView.setOnClickListener {
                 val intentToDetails = Intent(mContext, ImageDetailsActivity::class.java)
                 intentToDetails.putExtra("Image", "https://image.tmdb.org/t/p/w500/" + profileResult.file_path)

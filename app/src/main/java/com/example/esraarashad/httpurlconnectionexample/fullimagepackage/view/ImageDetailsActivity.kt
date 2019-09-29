@@ -30,12 +30,7 @@ import java.util.concurrent.ExecutionException
 
 class ImageDetailsActivity : AppCompatActivity() {
     private var fullImageView: ImageView? = null
-    private val imgUrl: URL? = null
-    private val bpImg: Bitmap? = null
-    private val inputStream: InputStream? = null
     private var imageString = ""
-    private val ImagePath = ""
-    private val URI: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

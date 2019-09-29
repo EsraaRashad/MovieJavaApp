@@ -37,7 +37,7 @@ class DetailsActivity : AppCompatActivity(), IViewDetails {
         profileImage = findViewById(R.id.detail_img)
         mRecyclerView = findViewById(R.id.recycler_view)
         mGridLayoutManager = GridLayoutManager(this@DetailsActivity, 2)
-        mRecyclerView!!.layoutManager = mGridLayoutManager
+        mRecyclerView!!.layoutManager = mGridLayoutManager as RecyclerView.LayoutManager?
         detailsPresenter = DetailsPresenter(this, DetailsNetwork())
         profileImage!!.setOnClickListener {
             val intentToDetails = Intent(this@DetailsActivity, ImageDetailsActivity::class.java)

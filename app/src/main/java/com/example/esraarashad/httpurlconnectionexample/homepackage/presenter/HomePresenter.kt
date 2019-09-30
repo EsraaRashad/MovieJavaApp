@@ -29,10 +29,7 @@ open class HomePresenter(private val view: IHomeView, private val model: IHomeMo
 
     fun asyncPopular() {
        model.asyncPopularModel {
-               list!!.addAll(it)
-               if (list != null) {
-                   view.setRecyclerViewAndAdapter(list!!)
-               }
+           view.setRecyclerViewAndAdapter(it)
        }
     }
 

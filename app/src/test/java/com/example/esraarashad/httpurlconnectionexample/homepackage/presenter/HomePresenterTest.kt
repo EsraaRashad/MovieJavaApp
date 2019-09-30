@@ -11,11 +11,11 @@ import org.junit.Test
 import org.junit.Assert.*
 import com.nhaarman.mockito_kotlin.*;
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
 class HomePresenterTest {
     lateinit var presenter :HomePresenter
-    lateinit var list: ArrayList<PeopleResults>
 
     @Mock
     lateinit var iHomeView: IHomeView
@@ -25,8 +25,7 @@ class HomePresenterTest {
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter = spy(HomePresenter(iHomeView,iHomeModel))
-        list= ArrayList()
+        presenter = HomePresenter(iHomeView,iHomeModel)
     }
 
     @After
@@ -35,8 +34,14 @@ class HomePresenterTest {
 
     @Test
     fun asyncPopular() {
-        val page : Int  = 1
-        presenter.updatePage(page)
-        verify(presenter).asyncOnLoadMorePages(eq(page))
+        val callback = argumentCaptor<(ArrayList<PeopleResults>?)-> Unit>()
+        val list= ArrayList<PeopleResults>()
+
+        Mockito.`when`(iHomeModel.asyncPopularModel (callback.capture()))
+                .then{
+                    callback.firstValue.invoke(list)
+                }
+        presenter.asyncPopular()
+        verify(iHomeView).setRecyclerViewAndAdapter(list)
     }
 }

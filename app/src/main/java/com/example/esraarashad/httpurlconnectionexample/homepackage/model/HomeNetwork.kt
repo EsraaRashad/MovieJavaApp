@@ -70,7 +70,7 @@ class HomeNetwork(asyncResponse: AsyncResponse) : AsyncTask<String, String, Stri
                 peopleResults.id = json_data.getInt("id")
                 peopleList.add(peopleResults)
             }
-            println("first element into peaopleList: " + peopleList[0])
+//            println("first element into peaopleList: " + peopleList[0])
 
         } catch (e: JSONException) {
             e.printStackTrace()

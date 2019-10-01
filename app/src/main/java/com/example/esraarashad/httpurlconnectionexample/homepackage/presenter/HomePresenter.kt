@@ -17,7 +17,7 @@ class HomePresenter(private val view: IHomeView, private val model: IHomeModel) 
         page++
         asyncOnLoadMorePages(page)
     }
-    
+
 
     fun asyncOnLoadMorePages(page: Int) {
         model.asyncOnLoadMorePages(page){

@@ -17,14 +17,7 @@ class HomePresenter(private val view: IHomeView, private val model: IHomeModel) 
         page++
         asyncOnLoadMorePages(page)
     }
-
-    fun settingText(text: String) {
-        view.sendSearchedText(text)
-    }
-
-    fun gettingText(): String {
-        return ""
-    }
+    
 
     fun asyncOnLoadMorePages(page: Int) {
         model.asyncOnLoadMorePages(page){

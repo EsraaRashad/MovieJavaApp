@@ -8,12 +8,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.SearchView
 import android.widget.Toast
-import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeDataNetwork
+import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeModel
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
 import com.example.esraarashad.httpurlconnectionexample.R
 import com.example.esraarashad.httpurlconnectionexample.homepackage.presenter.HomePresenter
@@ -41,7 +40,7 @@ class HomeActivity : AppCompatActivity(), IHomeView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         peopleResultsList = ArrayList()
-        presenter = HomePresenter(this, HomeDataNetwork())
+        presenter = HomePresenter(this, HomeModel())
         progressBar = findViewById(R.id.progress)
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout)
         layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.VERTICAL, false)

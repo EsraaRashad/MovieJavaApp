@@ -9,4 +9,5 @@ interface IHomeModel {
     fun asyncPopularModel(callback: (ArrayList<PeopleResults>)->Unit)
     fun asyncSearchModel(text: String ,callback: (ArrayList<PeopleResults>)->Unit)
     fun asyncOnLoadMorePages(page: Int ,callback: (ArrayList<PeopleResults>)->Unit)
+    fun getPopularData(page: Int)
 }

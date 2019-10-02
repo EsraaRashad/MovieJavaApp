@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.homepackage.model.retrofit
+package com.example.esraarashad.httpurlconnectionexample.homepackage.model.network.retrofit
 
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor

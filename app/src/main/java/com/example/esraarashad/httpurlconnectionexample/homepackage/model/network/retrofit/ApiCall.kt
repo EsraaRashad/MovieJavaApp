@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.homepackage.model.retrofit
+package com.example.esraarashad.httpurlconnectionexample.homepackage.model.network.retrofit
 
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.MyPeoplePojo
 import retrofit2.Call

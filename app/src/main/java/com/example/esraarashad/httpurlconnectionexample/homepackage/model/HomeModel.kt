@@ -3,7 +3,7 @@ package com.example.esraarashad.httpurlconnectionexample.homepackage.model
 import android.util.Log
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.MyPeoplePojo
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
-import com.example.esraarashad.httpurlconnectionexample.homepackage.model.network.retrofit.ApiClient
+import com.example.esraarashad.httpurlconnectionexample.retrofit.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

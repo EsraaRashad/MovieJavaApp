@@ -1,4 +1,4 @@
-package com.example.esraarashad.httpurlconnectionexample.homepackage.model.network.retrofit
+package com.example.esraarashad.httpurlconnectionexample.retrofit
 
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.ProfilePojo
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.MyPeoplePojo

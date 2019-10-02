@@ -5,15 +5,14 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.DetailsNetwork
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.presenter.DetailsPresenter
 import com.example.esraarashad.httpurlconnectionexample.fullimagepackage.view.ImageDetailsActivity
 import com.example.esraarashad.httpurlconnectionexample.R
+import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.DetailsModel
 import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.Profiles
 import java.util.ArrayList
 
@@ -38,7 +37,7 @@ class DetailsActivity : AppCompatActivity(), IViewDetails {
         mRecyclerView = findViewById(R.id.recycler_view)
         mGridLayoutManager = GridLayoutManager(this@DetailsActivity, 2)
         mRecyclerView!!.layoutManager = mGridLayoutManager as RecyclerView.LayoutManager?
-        detailsPresenter = DetailsPresenter(this, DetailsNetwork())
+        detailsPresenter = DetailsPresenter(this, DetailsModel())
         profileImage!!.setOnClickListener {
             val intentToDetails = Intent(this@DetailsActivity, ImageDetailsActivity::class.java)
             intentToDetails.putExtra("Image", path)
@@ -65,7 +64,7 @@ class DetailsActivity : AppCompatActivity(), IViewDetails {
                 Glide.with(this).load(R.drawable.ic_launcher_background).into(profileImage!!)
             }
         }
-        asyncProfiles()
+        asyncProfiles(id)
     }
 
     override fun getId(id: Int) {
@@ -83,8 +82,8 @@ class DetailsActivity : AppCompatActivity(), IViewDetails {
         adapter.notifyDataSetChanged()
     }
 
-    override fun asyncProfiles() {
-        detailsPresenter!!.asyncProfiles()
+    override fun asyncProfiles(id: Int) {
+        detailsPresenter!!.getProfiles(id)
     }
 }
 

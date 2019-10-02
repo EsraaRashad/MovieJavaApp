@@ -1,6 +1,7 @@
 package com.example.esraarashad.httpurlconnectionexample.detailspackage.model
 
+import com.example.esraarashad.httpurlconnectionexample.detailspackage.model.ProfileModel.Profiles
+
 interface IModelDetails {
-    val defaultImagesUrl: String
-    val imagesApiKeyUrl: String
+    fun getPopularData(id: Int ,loadedData: ( ArrayList<Profiles>)-> Unit)
 }

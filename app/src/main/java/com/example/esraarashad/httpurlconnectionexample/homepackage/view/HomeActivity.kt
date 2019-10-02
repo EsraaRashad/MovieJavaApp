@@ -15,12 +15,15 @@ import android.widget.Toast
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.HomeModel
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
 import com.example.esraarashad.httpurlconnectionexample.R
+import com.example.esraarashad.httpurlconnectionexample.basemvp.BaseActivity
+import com.example.esraarashad.httpurlconnectionexample.homepackage.HomeContract
 import com.example.esraarashad.httpurlconnectionexample.homepackage.presenter.HomePresenter
 import org.json.JSONException
 import java.util.ArrayList
 
-class HomeActivity : AppCompatActivity(), IHomeView {
+class HomeActivity : BaseActivity<HomePresenter>(),HomeContract.IHomeView {
 
+    private var searchText: String =""
     private var recyclerView: RecyclerView? = null
     private var mAdapter: MyAdapter? = null
     private var layoutManager: LinearLayoutManager? = null
@@ -29,17 +32,16 @@ class HomeActivity : AppCompatActivity(), IHomeView {
     internal var totalItems: Int = 0
     internal var scrollOutItems: Int = 0
     private var progressBar: ProgressBar? = null
-    private var pageNum = 1
+    private var isSearchAction = false
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var isLoading: Boolean? = false
     var peopleResultsList: ArrayList<PeopleResults>? = null
-    private var presenter: HomePresenter? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+    override val presenter: HomePresenter = HomePresenter(this, HomeModel())
+    override fun getLayoutResourceId()= R.layout.activity_home
+
+    override fun onViewReady(bundle: Bundle?) {
         peopleResultsList = ArrayList()
-        presenter = HomePresenter(this, HomeModel())
         progressBar = findViewById(R.id.progress)
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout)
         layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.VERTICAL, false)
@@ -59,8 +61,12 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                 scrollOutItems = layoutManager!!.findFirstVisibleItemPosition()
                 if (isScrolling && currentItems + scrollOutItems == totalItems) {
                     isScrolling = false
-                    pageNum++
-                    getAsyncPopularObj(pageNum)
+                    if (isSearchAction) {
+                        loadNextPagesSearched(searchText)
+                    } else {
+                        presenter.loadNextPage()
+                    }
+
                     progressBar!!.visibility = View.VISIBLE
                 }
 
@@ -74,11 +80,11 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                 // clear the list
                 peopleResultsList!!.clear()
                 notifyChangesInAdapter(mAdapter!!)
-                getAsyncPopularObj(pageNum)
+                presenter.pullToRefresh()
                 swipeRefreshLayout!!.isRefreshing = false
             }, 3000)
         }
-        getAsyncPopularObj(pageNum)
+        getAsyncPopularObj()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -95,33 +101,34 @@ class HomeActivity : AppCompatActivity(), IHomeView {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (!newText.isEmpty()) {
+                searchText= newText
+                if (searchText.isNotEmpty()) {
                     if (!(isLoading)!!) {
                         //Clear then make a request for search
                         Log.i("PeopleResultsList :",peopleResultsList!!.size.toString()+"")
                         peopleResultsList!!.clear()
                         Log.i("PeopleList cleared :",peopleResultsList!!.size.toString()+"")
                         notifyChangesInAdapter(mAdapter!!)
-                        getAsyncSearch(newText)
+                        getAsyncSearch(searchText)
                     } else {
                         //Cancel the current async task and request the new one
                         isLoading = false
                         peopleResultsList!!.clear()
                         notifyChangesInAdapter(mAdapter!!)
-                        getAsyncSearch(newText)
+                        getAsyncSearch(searchText)
                     }
                 } else {
                     //currentPage = 1
                     if (!(isLoading)!!) {
                         peopleResultsList!!.clear()
                         notifyChangesInAdapter(mAdapter!!)
-                        getAsyncPopularObj(pageNum)
+                        getAsyncPopularObj()
                     } else {
                         isLoading = false
                         peopleResultsList!!.clear()
                         Log.i("list", peopleResultsList!!.size.toString() + "")
                         notifyChangesInAdapter(mAdapter!!)
-                        getAsyncPopularObj(pageNum)
+                        getAsyncPopularObj()
                     }
                 }
                 return false
@@ -136,7 +143,7 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                 //currentPage = 1
                 peopleResultsList!!.clear()
                 notifyChangesInAdapter(mAdapter!!)
-                getAsyncPopularObj(pageNum)
+                getAsyncPopularObj()
             } else
                 mSearchView.onActionViewCollapsed()
         }
@@ -163,12 +170,16 @@ class HomeActivity : AppCompatActivity(), IHomeView {
         adapter.notifyDataSetChanged()
     }
 
-    override fun getAsyncPopularObj(page: Int) {
-        presenter!!.getAsyncPop(page)
+    override fun getAsyncPopularObj() {
+        presenter.getAsyncPop()
     }
 
     override fun getAsyncSearch(text: String) {
-        presenter!!.asyncSearch(text)
+        presenter.asyncSearch(text)
+    }
+
+    override fun loadNextPagesSearched(text: String) {
+        presenter.loadNextSearchPage(text)
     }
 }
 

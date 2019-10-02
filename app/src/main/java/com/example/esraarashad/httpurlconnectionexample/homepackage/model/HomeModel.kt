@@ -1,6 +1,9 @@
 package com.example.esraarashad.httpurlconnectionexample.homepackage.model
 
 import android.util.Log
+import com.example.esraarashad.httpurlconnectionexample.basemvp.BaseContract
+import com.example.esraarashad.httpurlconnectionexample.basemvp.BaseRepository
+import com.example.esraarashad.httpurlconnectionexample.homepackage.HomeContract
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.MyPeoplePojo
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
 import com.example.esraarashad.httpurlconnectionexample.retrofit.ApiClient
@@ -9,7 +12,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.ArrayList
 
-class HomeModel : IHomeModel {
+class HomeModel : BaseRepository() ,HomeContract.IHomeModel {
     private  var peopleList: ArrayList<PeopleResults> = ArrayList()
 
     override fun asyncSearchModel(text: String ,callback: (ArrayList<PeopleResults>)->Unit) {

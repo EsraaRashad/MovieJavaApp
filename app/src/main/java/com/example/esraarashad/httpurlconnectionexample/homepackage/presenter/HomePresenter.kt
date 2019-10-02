@@ -7,6 +7,7 @@ import com.example.esraarashad.httpurlconnectionexample.homepackage.model.Popula
 import com.example.esraarashad.httpurlconnectionexample.homepackage.view.IHomeView
 
 import java.util.ArrayList
+import java.util.function.Consumer
 
 class HomePresenter( view: HomeContract.IHomeView?,val model: HomeContract.IHomeModel) :
         BasePresenter <HomeContract.IHomeView,HomeContract.IHomeModel> (view,model) {
@@ -20,10 +21,10 @@ class HomePresenter( view: HomeContract.IHomeView?,val model: HomeContract.IHome
 
     fun getAsyncPop(){
         view!!.showLoading()
-        model.getPopularData(page){
+        subscribe( model.getPopData(page), io.reactivex.functions.Consumer {
             view!!.hideLoading()
-            view!!.setRecyclerViewAndAdapter(it)
-        }
+            view!!.setRecyclerViewAndAdapter(it.results!!)
+        })
     }
 
     fun asyncSearch(text: String) {

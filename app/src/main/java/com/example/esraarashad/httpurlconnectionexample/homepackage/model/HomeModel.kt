@@ -7,12 +7,17 @@ import com.example.esraarashad.httpurlconnectionexample.homepackage.HomeContract
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.MyPeoplePojo
 import com.example.esraarashad.httpurlconnectionexample.homepackage.model.PopularPeopleModel.PeopleResults
 import com.example.esraarashad.httpurlconnectionexample.retrofit.ApiClient
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.ArrayList
 
 class HomeModel : BaseRepository() ,HomeContract.IHomeModel {
+    override fun getPopData(page: Int): Single<MyPeoplePojo> {
+        return remoteDataSource.service.getDataWithRX(page)
+    }
+
     private  var peopleList: ArrayList<PeopleResults> = ArrayList()
 
     override fun asyncSearchModel(text: String ,callback: (ArrayList<PeopleResults>)->Unit) {

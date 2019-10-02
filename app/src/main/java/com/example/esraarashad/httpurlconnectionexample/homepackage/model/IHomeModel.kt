@@ -4,10 +4,6 @@ import com.example.esraarashad.httpurlconnectionexample.homepackage.model.Popula
 import java.util.ArrayList
 
 interface IHomeModel {
-    val defaultURL: String
-    val searchUrl: String
-    fun asyncPopularModel(callback: (ArrayList<PeopleResults>)->Unit)
     fun asyncSearchModel(text: String ,callback: (ArrayList<PeopleResults>)->Unit)
-    fun asyncOnLoadMorePages(page: Int ,callback: (ArrayList<PeopleResults>)->Unit)
-    fun getPopularData(page: Int)
+    fun getPopularData(page: Int ,loadedData: (ArrayList<PeopleResults>)-> Unit)
 }

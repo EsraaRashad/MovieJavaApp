@@ -29,11 +29,10 @@ class HomeActivity : AppCompatActivity(), IHomeView {
     internal var totalItems: Int = 0
     internal var scrollOutItems: Int = 0
     private var progressBar: ProgressBar? = null
-    private val i = 1
+    private var pageNum = 1
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
     private var isLoading: Boolean? = false
     var peopleResultsList: ArrayList<PeopleResults>? = null
-        private set
     private var presenter: HomePresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +44,6 @@ class HomeActivity : AppCompatActivity(), IHomeView {
         swipeRefreshLayout = findViewById(R.id.simpleSwipeRefreshLayout)
         layoutManager = LinearLayoutManager(this@HomeActivity, LinearLayoutManager.VERTICAL, false)
         recyclerView = findViewById(R.id.my_recycler_view)
-        //getAsyncPopularObj();
         progressBar!!.visibility = View.GONE
 
         recyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -61,7 +59,8 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                 scrollOutItems = layoutManager!!.findFirstVisibleItemPosition()
                 if (isScrolling && currentItems + scrollOutItems == totalItems) {
                     isScrolling = false
-                    presenter!!.updatePage(i)
+                    pageNum++
+                    getAsyncPopularObj(pageNum)
                     progressBar!!.visibility = View.VISIBLE
                 }
 
@@ -74,13 +73,12 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                 // cancle the Visual indication of a refresh
                 // clear the list
                 peopleResultsList!!.clear()
-//                mAdapter!!.notifyDataSetChanged()
                 notifyChangesInAdapter(mAdapter!!)
-                getAsyncPopularObj()
+                getAsyncPopularObj(pageNum)
                 swipeRefreshLayout!!.isRefreshing = false
             }, 3000)
         }
-        getAsyncPopularObj()
+        getAsyncPopularObj(pageNum)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -103,14 +101,12 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                         Log.i("PeopleResultsList :",peopleResultsList!!.size.toString()+"")
                         peopleResultsList!!.clear()
                         Log.i("PeopleList cleared :",peopleResultsList!!.size.toString()+"")
-//                        mAdapter!!.notifyDataSetChanged()
                         notifyChangesInAdapter(mAdapter!!)
                         getAsyncSearch(newText)
                     } else {
                         //Cancel the current async task and request the new one
                         isLoading = false
                         peopleResultsList!!.clear()
-//                        mAdapter!!.notifyDataSetChanged()
                         notifyChangesInAdapter(mAdapter!!)
                         getAsyncSearch(newText)
                     }
@@ -118,16 +114,14 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                     //currentPage = 1
                     if (!(isLoading)!!) {
                         peopleResultsList!!.clear()
-//                        mAdapter!!.notifyDataSetChanged()
                         notifyChangesInAdapter(mAdapter!!)
-                        getAsyncPopularObj()
+                        getAsyncPopularObj(pageNum)
                     } else {
                         isLoading = false
                         peopleResultsList!!.clear()
                         Log.i("list", peopleResultsList!!.size.toString() + "")
-//                        mAdapter!!.notifyDataSetChanged()
                         notifyChangesInAdapter(mAdapter!!)
-                        getAsyncPopularObj()
+                        getAsyncPopularObj(pageNum)
                     }
                 }
                 return false
@@ -141,9 +135,8 @@ class HomeActivity : AppCompatActivity(), IHomeView {
                 mSearchView.clearFocus()
                 //currentPage = 1
                 peopleResultsList!!.clear()
-                //mAdapter!!.notifyDataSetChanged()
                 notifyChangesInAdapter(mAdapter!!)
-                getAsyncPopularObj()
+                getAsyncPopularObj(pageNum)
             } else
                 mSearchView.onActionViewCollapsed()
         }
@@ -170,8 +163,8 @@ class HomeActivity : AppCompatActivity(), IHomeView {
         adapter.notifyDataSetChanged()
     }
 
-    override fun getAsyncPopularObj() {
-        presenter!!.asyncPopular()
+    override fun getAsyncPopularObj(page: Int) {
+        presenter!!.getAsyncPop(page)
     }
 
     override fun getAsyncSearch(text: String) {

@@ -10,39 +10,18 @@ class HomePresenter(private val view: IHomeView, private val model: IHomeModel) 
     private var list: ArrayList<PeopleResults>? = null
 
     init {
-        list = ArrayList<PeopleResults>()
-    }
-    fun updatePage(page: Int) {
-        var page = page
-        page++
-        asyncOnLoadMorePages(page)
+        list = ArrayList()
     }
 
-
-    fun asyncOnLoadMorePages(page: Int) {
-        model.asyncOnLoadMorePages(page){
-            list!!.addAll(it)
-            if (list != null) {
-                view.setRecyclerViewAndAdapter(list!!)
-            }
+    fun getAsyncPop(page: Int){
+        model.getPopularData(page){
+            view.setRecyclerViewAndAdapter(it)
         }
-    }
-
-    fun asyncPopular() {
-       model.asyncPopularModel {
-               list!!.addAll(it)
-               if (list != null) {
-                   view.setRecyclerViewAndAdapter(list!!)
-               }
-       }
     }
 
     fun asyncSearch(text: String) {
         model.asyncSearchModel(text){
-            list!!.addAll(it)
-            if (list != null) {
-                view.setRecyclerViewAndAdapter(list!!)
-            }
+            view.setRecyclerViewAndAdapter(list!!)
         }
     }
 

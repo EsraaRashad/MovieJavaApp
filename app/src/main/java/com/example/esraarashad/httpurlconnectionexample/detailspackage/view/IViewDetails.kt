@@ -9,5 +9,5 @@ interface IViewDetails {
     fun getId(id: Int)
     fun setmRecyclerViewAndmyAdapter(profilesList: ArrayList<Profiles>)
     fun notifyChangesInAdapter(adapter: DetailsAdapter)
-    fun asyncProfiles()
+    fun asyncProfiles(id: Int)
 }
